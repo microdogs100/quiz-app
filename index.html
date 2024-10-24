@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        #quiz-container { margin-top: 20px; }
+        .question { margin-bottom: 20px; }
+        button { margin-top: 10px; }
+        .draggable { cursor: move; padding: 5px; margin: 5px; background-color: #f0f0f0; display: inline-block; }
+        .droppable { min-height: 30px; min-width: 100px; border: 1px dashed #999; padding: 5px; margin: 5px; }
+        .droppable:empty::before { content: 'Drop here'; color: #999; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        td { text-align: center; }
+        .category { margin-top: 10px; border: 1px solid #ccc; padding: 10px; }
+        .category-title { font-weight: bold; margin-bottom: 5px; }
+        .category-items { min-height: 50px; }
+        .draggable-container { 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+        }
+        .draggable { 
+            cursor: move; 
+            padding: 5px; 
+            margin: 5px; 
+            background-color: #f0f0f0; 
+            display: inline-block; 
+            border: 1px solid #999;
+        }
+        .droppable { 
+            min-height: 30px; 
+            border: 1px dashed #999; 
+            padding: 5px; 
+            margin: 5px; 
+            background-color: #f9f9f9;
+        }
+        .droppable-placeholder {
+            color: #999;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz App</h1>
+    <div id="quiz-container"></div>
+    <button id="submit-btn" style="display: none;">Submit</button>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        let currentQuestionIndex = 0;
+        let questions = [];
+        let score = 0;
+
+        async function loadQuestions() {
+            try {
+                const response = await axios.get('/api/questions');
+                questions = response.data;
+                // 질문 순서를 랜덤하게 섞습니다
+                questions = questions.sort(() => Math.random() - 0.5);
+                console.log('Loaded questions:', questions); // 디버깅을 위해 추가
+                if (questions.length > 0) {
+                    displayQuestion();
+                } else {
+                    showError("No questions loaded. Please check your questions.json file.");
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                showError("Failed to load questions. Please try again later.");
+            }
+        }
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (currentQuestionIndex < questions.length) {
+                const question = questions[currentQuestionIndex];
+                console.log('Current question:', question); // 디버깅용
+                let html = `<div class="question">
+                    <h3>${question.question}</h3>`;
+                
+                if (!question.type || question.type === 'single_choice' || question.type === 'multiple_choice') {
+                    const inputType = (question.type === 'multiple_choice' || Array.isArray(question.answer)) ? 'checkbox' : 'radio';
+                    question.options.forEach((option, index) => {
+                        html += `<div>
+                            <input type="${inputType}" 
+                                   name="q${currentQuestionIndex}" 
+                                   value="${option}" 
+                                   id="q${currentQuestionIndex}o${index}">
+                            <label for="q${currentQuestionIndex}o${index}">${option}</label>
+                        </div>`;
+                    });
+                } else if (question.type === 'drag_and_drop') {
+                    html += '<div id="options" class="draggable-container">';
+                    question.options.forEach(option => {
+                        html += `<div class="draggable" draggable="true">${option}</div>`;
+                    });
+                    html += '</div><div id="answers" class="droppable-container">';
+                    question.answers.forEach((_, index) => {
+                        html += `<div class="droppable" data-index="${index}"></div>`;
+                    });
+                    html += '</div>';
+                } else if (question.type === 'grid_multiple_items') {
+                    html += '<table><tr><th></th>';
+                    question.column_headers.forEach(header => {
+                        html += `<th>${header}</th>`;
+                    });
+                    html += '</tr>';
+                    question.row_headers.forEach((rowHeader, rowIndex) => {
+                        html += `<tr><th>${rowHeader}</th>`;
+                        question.column_headers.forEach((_, colIndex) => {
+                            html += `<td>
+                                <input type="checkbox" 
+                                       name="q${currentQuestionIndex}r${rowIndex}c${colIndex}" 
+                                       id="q${currentQuestionIndex}r${rowIndex}c${colIndex}">
+                            </td>`;
+                        });
+                        html += '</tr>';
+                    });
+                    html += '</table>';
+                } else if (question.type === 'category_drag_drop') {
+                    html += '<div id="options" class="draggable-container">';
+                    question.options.forEach(option => {
+                        html += `<div class="draggable" draggable="true">${option}</div>`;
+                    });
+                    html += '</div>';
+                    question.categories.forEach((category, index) => {
+                        html += `<div class="category">
+                            <div class="category-title">${category}</div>
+                            <div class="category-items" data-category="${index}"></div>
+                        </div>`;
+                    });
+                } else {
+                    html += '<p>Unknown question type.</p>';
+                }
+                
+                html += '</div>';
+                quizContainer.innerHTML = html;
+                submitBtn.style.display = 'block';
+
+                if (question.type === 'drag_and_drop' || question.type === 'category_drag_drop') {
+                    setupDragAndDrop(question.type);
+                }
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function setupDragAndDrop(type) {
+            const optionsContainer = document.getElementById('options');
+            const answersContainer = document.getElementById('answers');
+            
+            new Sortable(optionsContainer, {
+                group: {
+                    name: 'shared',
+                    pull: 'clone',
+                    put: false
+                },
+                animation: 150,
+                sort: false
+            });
+
+            if (type === 'drag_and_drop') {
+                const droppables = answersContainer.querySelectorAll('.droppable');
+                droppables.forEach(droppable => {
+                    new Sortable(droppable, {
+                        group: {
+                            name: 'shared',
+                            pull: false
+                        },
+                        animation: 150,
+                        sort: false,
+                        onAdd: function(evt) {
+                            if (evt.to.children.length > 1) {
+                                evt.to.removeChild(evt.to.children[0]);
+                            }
+                        }
+                    });
+                });
+            } else if (type === 'category_drag_drop') {
+                const categoryContainers = document.querySelectorAll('.category-items');
+                categoryContainers.forEach(container => {
+                    new Sortable(container, {
+                        group: 'shared',
+                        animation: 150
+                    });
+                });
+            }
+        }
+
+        function checkAnswer() {
+            const question = questions[currentQuestionIndex];
+            let isCorrect = false;
+
+            if (!question.type || question.type === 'single_choice' || question.type === 'multiple_choice') {
+                const selectedOptions = Array.from(document.querySelectorAll(`input[name="q${currentQuestionIndex}"]:checked`))
+                                             .map(input => input.value);
+                if (Array.isArray(question.answer)) {
+                    isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(question.answer.sort());
+                } else {
+                    isCorrect = selectedOptions.length === 1 && selectedOptions[0] === question.answer;
+                }
+            } else if (question.type === 'drag_and_drop') {
+                const droppedItems = Array.from(document.querySelectorAll('.droppable'))
+                                          .map(droppable => droppable.textContent.trim())
+                                          .filter(text => text !== '');
+                console.log('Dropped items:', droppedItems);
+                console.log('Correct answer:', question.answers);
+                isCorrect = JSON.stringify(droppedItems) === JSON.stringify(question.answers);
+            } else if (question.type === 'grid_multiple_items') {
+                isCorrect = true;
+                for (let col in question.correct_answers) {
+                    const correctAnswers = question.correct_answers[col];
+                    const userAnswers = question.row_headers.filter((_, rowIndex) => 
+                        document.getElementById(`q${currentQuestionIndex}r${rowIndex}c${question.column_headers.indexOf(col)}`).checked
+                    );
+                    if (JSON.stringify(correctAnswers.sort()) !== JSON.stringify(userAnswers.sort())) {
+                        isCorrect = false;
+                        break;
+                    }
+                }
+            } else if (question.type === 'category_drag_drop') {
+                isCorrect = true;
+                question.categories.forEach((category, index) => {
+                    const categoryItems = Array.from(document.querySelectorAll(`.category-items[data-category="${index}"] .draggable`))
+                                               .map(item => item.textContent);
+                    if (JSON.stringify(categoryItems.sort()) !== JSON.stringify(question.correct_answers[category].sort())) {
+                        isCorrect = false;
+                    }
+                });
+            }
+
+            if (isCorrect) {
+                score++;
+                alert('정답입니다!');
+            } else {
+                alert('틀렸습니다. 다시 시도해보세요.');
+            }
+
+            return isCorrect;
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            if (checkAnswer()) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                } else {
+                    showFinalScore();
+                }
+            }
+        });
+
+        function showFinalScore() {
+            const quizContainer = document.getElementById('quiz-container');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            quizContainer.innerHTML = `<h2>퀴즈 완료!</h2>
+                                       <p>당신의 점수: ${score} / ${questions.length}</p>`;
+            submitBtn.style.display = 'none';
+        }
+
+        function showError(message) {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = `<h2>오류</h2><p>${message}</p>`;
+        }
+
+        // 페이지 로드 시 질문을 불러옵니다
+        window.onload = loadQuestions;
+    </script>
+</body>
+</html>

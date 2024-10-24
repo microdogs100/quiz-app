@@ -1,0 +1,856 @@
+[
+  {
+    "question": "Which scalable, switch-level feature must be used to prevent access from an employee-owned wireless access point connected to the corporate network?",
+    "options": ["bridge protocol data unit guard", "port security", "security group tags", "MAC access control list"],
+    "answer": ["port security"]
+  },
+  {
+    "question": "Which two additional solutions must be used to meet these extra requirements?(choose two)",
+    "options": ["Set the maximum number of MAC address to 1", "Specify the MAC address of the allowed device in the switch interface configuration", 
+    "Ensure that err-disable recovery is disabled for port security events", "Ensure that the first dynamically learned MAC address is sticky in the switch interface", 
+    "Set the port security violation action to Project"],
+    "answer": ["Ensure that err-disable recovery is disabled for port security events", "Ensure that the first dynamically learned MAC address is sticky in the switch interface"]
+  },
+  {
+    "question": "Which solution mitigates the switch CPU utilization issues and avoids considerable changes to the data center network?",
+    "options": ["Reduce the number of STP instances that use MST", 
+    "Convert each switch to the router configuration with the Layer 3 underlay and a BGP EVPN VXLAN based overlay", 
+    "Put each bridge protocol data unit into the switch software for management by the control plane", 
+    "Enable IGMP snooping on each switch"],
+    "answer": ["Reduce the number of STP instances that use MST"]
+  },
+  {
+    "question": "Which Layer 2 feature must be used to help mitigate the dropped traffic on EtherChannel between the switches?",
+    "options": ["Loop guard", 
+    "Bridge Assurance", 
+    "Bidirectional Forwarding Detection", 
+    "UnDirectional Link Detection" ],
+    "answer": ["UnDirectional Link Detection"]
+  },
+  {
+    "question": "Which tool must be used by a SDN domain expert, who is nonprogrammer TO test an API and generate sample Python code for the opertaions team?",
+    "options": ["Postman", 
+    "SOAP", 
+    "Idle", 
+    "emacs" ],
+    "answer": ["Postman"]
+  },
+  {
+    "question": "[Part3]Refer to the exhibit above. Which Cisco DNA Center API endpoint produced the output shown in the exhibit?",
+    "options": ["/dna/internet/api/v1/device-detail", 
+    "/dna/internet/api/v1/network-device", 
+    "/dna/internet/api/v1/device-enrichment-details", 
+    "/dna/internet/api/v1/business/sda/device" ],
+    "answer": ["/dna/internet/api/v1/device-detail"]
+  },
+  {
+    "question": "Which Cisco NDA Center API must be used by Natalie's team to be able to retrieve the required data recoreds as per her last email?",
+    "options": ["/node-list", 
+    "/network-device", 
+    "/network-device-list", 
+    "/network-node",
+    "/device-list",
+    "network-node-list" ],
+    "answer": ["/network-device"]
+  },
+  {
+    "question": "Which vManage API must be used?",
+    "options": ["https://{{vmanage}} {{port}}/dataservice/node", 
+    "https://{{vmanage}} {{port}}/dataservice/node-list", 
+    "https://{{vmanage}} {{port}}/dataservice/device", 
+    "https://{{vmanage}} {{port}}/dataservice/device-list",
+    "https://{{vmanage}} {{port}}/dataservice/edge-list" ],
+    "answer": ["https://{{vmanage}} {{port}}/dataservice/device"]
+  },
+  {
+    "question": "Which connectivity solution must Xander use to fulfill their requiremenet?",
+    "options": ["Create a centralized route-based control policy as a new topology Match VPN 1 and export all routes to VPN 4", 
+    "Create a centralized route-based control policy as a new topology Match VPN 1 and 4 and export all routes in both directions to one another", 
+    "Create a centralized route-based control policy as a new topology Match VPN 4 and export all routes to VPN 1", 
+    "Create a centralized route-based data policy as a new topology Match VPN 1 and 4 and export all routes in both directions to VPN 1",
+    "Create a centralized route-based data policy as a new topology Match VPN 1 and 4 and export all routes in both directions to one another"  ],
+    "answer": ["Create a centralized route-based control policy as a new topology Match VPN 1 and 4 and export all routes in both directions to one another"]
+  },
+  {
+    "question": "Which connectivity solution must Xander use to fulfill their requiremenet?",
+    "options": ["Create a centralized route-based control policy as a new topology Match VPN 1 and export all routes to VPN 4", 
+    "Create a centralized route-based control policy as a new topology Match VPN 1 and 4 and export all routes in both directions to one another", 
+    "Create a centralized route-based control policy as a new topology Match VPN 4 and export all routes to VPN 1", 
+    "Create a centralized route-based data policy as a new topology Match VPN 1 and 4 and export all routes in both directions to VPN 1" ],
+    "answer": ["Create a centralized route-based control policy as a new topology Match VPN 1 and 4 and export all routes in both directions to one another"]
+  },
+  {
+    "question": "Which change needs to be made to ensure that the neighbor adjacency between the data center switches and the point SD-WAN routers progresses past the Exstart/Exchange state?",
+    "options": ["Ensure that the maximum transmission units(MTUs) of the interfaces used to establish the neighbor relationship are consistent", 
+    "Ensure that automatic neighbor selection and election is enforced between the data center switches and the SD-WAN routers", 
+    "Ensure that the OSPF authentication parameters are consistent for the switch and router interfaces", 
+    "Ensure that there is no filtering for link local multicast on transit interfaces" ],
+    "answer": ["Ensure that the maximum transmission units(MTUs) of the interfaces used to establish the neighbor relationship are consistent"]
+  },
+  {
+    "question": "What must be used to improve the resilience of Xander's currently deployed DMVPN solution, while minimizing effort and avoiding potential disruption?",
+    "options": ["dual hub, dual-cloud with single transport", 
+    "VRRP", 
+    "dual-hub, single-cloud", 
+    "dual-hub, dual-cloud with dual transport" ],
+    "answer": ["dual-hub, single-cloud"]
+  },
+  {
+    "question": "Which two load-balancing algorithms should the operations team use as a reusable stanard?(choose two)",
+    "options": ["src-dst-mac", 
+    "vlan-src-ip", 
+    "src-dst-ip", 
+    "src-mixed-ip-port",
+    "vlan-src-dst-mixed-ip-port" ],
+    "answer": ["src-dst-ip", "vlan-src-dst-mixed-ip-port"]
+  },
+  {
+    "question": "Which load-balancing algorithm should the operations team use as a reusable stanard?",
+    "options": ["src-dst-mac", 
+    "vlan-src-ip", 
+    "src-dst-ip", 
+    "src-mixed-ip-port" ],
+    "answer": ["src-dst-mac"]
+  },
+  {
+    "question": "Which two solutions must be used to terminate the LAN connections on the SD-WAN routers while performing the correct redistribution?(choose two)",
+    "options": ["Redistribute OSPF internal and connected BGP router into OMP", 
+    "Use subinterfaces on the LAN-facing interface by using 802.1Q tags for each service-side virtual network and increase the MTU size to 1504", 
+    "Use subinterfaces on the LAN-facing interface by using 802.1Q tags for each service-side virtual network and leave the MTU at its default configuration", 
+    "Use subinterfaces on the LAN-facing interface by using 802.1Q tags for each service-side virtual network and reduce the MTU size to 1496",
+    "Redistribute OSPF and BGP external routes into OMP",
+    "Redistribute connected BGP router into OMP" ],
+    "answer": ["Use subinterfaces on the LAN-facing interface by using 802.1Q tags for each service-side virtual network and reduce the MTU size to 1496", 
+    "Redistribute OSPF and BGP external routes into OMP"]
+  },
+  {
+    "question": "Which two solutions should be used to address Xander issue?(choose two)",
+    "options": ["Use as-path prepend on R23 to make it the least preferred entry point for internet traffic entering BGP AS 65002", 
+    "Use-as-path prepend on R23 to make it the least preferred entry point for internet traffic entering BGP AS 64500", 
+    "Use as-path prepend on R24 to make it the least preferred entry point for internet traffic entering BGP AS 65002", 
+    "Set local preference for all BGP routers to 150 on r24",
+    "Set local preference for all BGP routers to 150 on r23" ],
+    "answer": ["Use-as-path prepend on R24 to make it the leastR preferred entry point for internet traffic entering BGP AS 65002", 
+    "Set local preference for all BGP routers to 150 on r23"]
+  },
+  {
+    "question": "[part2]Which two actions must be performed by the engineer to accomplist this task?(choose two)",
+    "options": ["Create a new Cisco vMange OSPF feature template", 
+    "Create two new Cisco vMange VPN feature template by using the default and non-default Advertise OMP settings", 
+    "Configure redistribution on the SDA Fabric Borders", 
+    "Reconfigure the Cisco vManage OSPF feature template named DC_OSPF_VPN999",
+    "Reconfigure the Cisco vManage VPN feature template named VPN999" ],
+    "answer": ["Create a new Cisco vMange OSPF feature template", 
+    "Create two new Cisco vMange VPN feature template by using the default and non-default Advertise OMP settings"]
+  },
+  {
+    "question": "Which two spanning tree configurations meet the requirements of Charlie Brown?(choose two)",
+    "options": ["Make SW201 the root for all the VLANs and make SW202 the secondary", 
+    "Reduce the forward time of the spanning tree", 
+    "Implement MSTP", 
+    "Reduce the max age of the spanning tree",
+    "Reduce the hello timer of the spanning tree",
+    "Make SW201 the root for the even VLANs and make SW202 the root for the odd VLANs" ],
+    "answer": ["Reduce the hello timer of the spanning tree", 
+    "Make SW201 the root for the even VLANs and make SW202 the root for the odd VLANs"]
+  },
+  {
+    "question": "Which four design recommendations for SW201 and SW202 meet the core capacity requirements?(choose four)",
+    "options": ["Use trunk and VLAN pruning on the members of SW201", 
+    "Deploy a Layer 3 port channel", 
+    "Enable the LACP feature", 
+    "Use load balancing of type vlan-src-dst-mixed-ip-port",
+    "Use load balancing of type vlan-src-ip",
+    "Set the port channel to active mode for new connections",
+    "Enable the Pagp standard for both switches",
+    "Disable the IEEE 802.3ad standard for both switches",
+    "Use trunk and VLAN pruning on the port channel interfaces of both switches" ],
+    "answer": ["Enable the LACP feature", 
+    "Set the port channel to active mode for new connections",
+    "Use trunk and VLAN pruning on the port channel interfaces of both switches",
+    "Use load balancing of type vlan-src-dst-mixed-ip-port"]
+  },
+  {
+    "question": "Which three recommendations will improve security and scale at Branch#3?(choose three)",
+    "options": ["Enable the passive interface default feature and disable passive interfaces toward the down stream switches", 
+    "Implement a stub configuration on all the routing devices at Branch#3 and apply summary routes onf SW601 and SW602", 
+    "Implement MD5 authenticatin between all neighbors by using same key on R24, R61, and R62. Use different keys on SW601 and SW602", 
+    "Implement SHA-256 authentication between all neighbors by using different keys on R24, R61, R62, SW601 and SW602",
+    "Implement a stub configuration on all the routing devices at Branch #3 and apply summary routes on R61 and R62",
+    "Implement SHA-256 authentication between all neighbors by using the same key on R24, R61, R62, SW601 and SW602",
+    "Enable the passvie interface default feature and disable passive interfaces toward R24 and on downstream switches",
+    "Implement a stub configuration on all the routing devices at Branch#3 that do not have summary routes"],
+    "answer": ["Implement a stub configuration on all the routing devices at Branch #3 and apply summary routes on R61 and R62", 
+    "Implement SHA-256 authentication between all neighbors by using the same key on R24, R61, R62, SW601 and SW602",
+    "Enable the passvie interface default feature and disable passive interfaces toward R24 and on downstream switches"]
+  },
+  {
+    "question": "Which solution must Xander use to improve controller redundancy and support environment scaling as per Natalie's requirements?",
+    "options": ["Add two additional Cisco vSmart Controllers in different geographic locations. Establist control connections from all the SD-WAN routers to all the vSmart controllers", 
+    "Add a second Cisco vSmart Controller to the on-premises data center and ensure that it is connected to switch SW212. Establish control connections from the SD-WAN routers to all the vSmart controllers", 
+    "Add a second Cisco vManage instance. Add an additional two Cisco vSmart Controllers in different geographic locations. Establish control connections from the SD-WAN routers to all the vSmart controllers", 
+    "Add an additional Cisco vSmart Controller in a different geographic location to the on-premises data center. Establish control connections from the SD-WAN routers to all the vSmart controllers"
+    ],
+    "answer": ["Add an additional Cisco vSmart Controller in a different geographic location to the on-premises data center. Establish control connections from the SD-WAN routers to all the vSmart controllers"]
+  },
+  {
+    "question": "Which two peering router design choices should be made, whilst being cost effective?(choose two)",
+    "options": ["Set the OSPF metric for the default router to a higher value on R24 than R23", 
+    "Set the OSPF metric for the default router to a higher value on R23 than R24", 
+    "On R23 and R24, use a static default route to the internet originated by R23 only", 
+    "On R23 and R24, use a static default route to the internet originated by R23 and R24",
+    "Set the OSPF metric for the default route to the same value on R23 and R24" ],
+    "answer": ["Set the OSPF metric for the default router to a higher value on R24 than R23", 
+    "On R23 and R24, use a static default route to the internet originated by R23 and R24"]
+  },
+  {
+    "question": "Which two solutinos should be used to provied the required subnets?(choose two)",
+    "options": ["Use four VLANs each with a unique IP subnet under a separate VRF", 
+    "Enable Source Specific Multicast(SSM) and use rendezvous points(RPs) on switches SW101 and SW102", 
+    "Use four VLANs with IP subnets and add them to OSPF 1 Area 0", 
+    "Enable MSDP and use renderzvous points(RPs) in SW101 and SW102" ,
+    "Enable Protocol independent Multicast(PIM) and use rendezvous points(RPs) on switches SW101 and SW102" ],
+    "answer": ["Use four VLANs each with a unique IP subnet under a separate VRF", 
+    "Enable Protocol independent Multicast(PIM) and use rendezvous points(RPs) on switches SW101 and SW102"]
+  },
+  {
+    "question": "Which two architecture changes must Xander mkae to meet this new requirement?(choose two)",
+    "options": ["The split horizon must be turned on at the DMVPN hub routers", 
+    "Disassociation the DMVPN hub tunnel interface from its IPsec profile", 
+    "Changes the DMVPN spoke tunnel interface from multipoint GRE to point-to-point", 
+    "Change the DMVPN hub tunnel interface from multiptipoint GRE to point-to-point" ,
+    "Reinstate the next-hop-self option for EIGRP on the DMVPN hub routers" ],
+    "answer": ["Changes the DMVPN spoke tunnel interface from multipoint GRE to point-to-point", 
+    "Reinstate the next-hop-self option for EIGRP on the DMVPN hub routers"]
+  },
+  {
+    "question": "Based on Nata's requirements. Which two FHRP solutions can be recommanded to solve Xander's problem?(choose two)",
+    "options": ["Use VRRP Configure MD5 authentication", 
+    "Leave the FHRP to load balance automatically", 
+    "Use HSRP Configure MD5 authentication", 
+    "Set the odd numbered VLANs on sw101 to a high FHRP priority. set the even numbered VLANs on sw102 to a high FHRP priority" ,
+    "Set the odd numbered VLANs on sw101 to a low FHRP priority. set the even numbered VLANs on sw102 to a low FHRP priority" ],
+    "answer": ["Use VRRP Configure MD5 authentication", 
+    "Set the odd numbered VLANs on sw101 to a high FHRP priority. set the even numbered VLANs on sw102 to a high FHRP priority"]
+  },
+  {
+    "question": "Which two solutions must be recommended for the trail?(choose two)",
+    "options": ["Install a Cisco Catalyst Extended node switch closes to each sensor location", 
+    "Arrange fiber uplink cabling back to the wiring cabinet from the sensor locations, and add additional POE switches to the wiring canbinet to accommodate the port density requirements", 
+    "Arrange fiber uplink cabling back to the wiring cabinet from the sensor locations, and do not add additional POE switches to the wiring canbinet to accommodate the port density requirements", 
+    "Install an industrial Ethernet switch as extended node close to each sensor location" ,
+    "Arrange copper cabling back to the wrong cabinet for all the sensors, and add additional POE switches to the wiring cabinet to accommodate the post density requirements" ],
+    "answer": ["Install an industrial Ethernet switch as extended node close to each sensor location", 
+    "Arrange fiber uplink cabling back to the wiring cabinet from the sensor locations, and do not add additional POE switches to the wiring canbinet to accommodate the port density requirements"]
+  },
+  {
+    "question": "Which two solutions must be used to together to allow the legacy switch to be bridged to the SD-Access fabric?(choose two)",
+    "options": ["A Layer 2 border handoff from SW503 or SW512", 
+    "SW501 and SW502 assumes border node and control node roles, SW503 assumes a border node role, SW510 assumes the dege node role", 
+    "SW501 assumes border node and control node roles, SW503 assumes a border node role, and SW502 assumes the edge node role; and SW503 and SW510 assumes the edge node roles", 
+    "A Layer 2 flooding from SW503 to SW512" ,
+    "SW501 assumes control node roles, SW503 assumes a border node role, and SW502 assumes the edge node role, and SW503 and SW510 assumes the edge node roles" ],
+    "answer": ["A Layer 2 border handoff from SW503 or SW512", 
+    "SW501 and SW502 assumes border node and control node roles, SW503 assumes a border node role, SW510 assumes the dege node role"]
+  },
+  {
+    "question": "Following on the previous email from Natalie, which two actions must be performed to incorporate an IP Server Level Agreement (IP SLA) probe measurement into the data collected and graphed by the monitoring platform of the operations team?(choose two)",
+    "options": ["Use the CLI to capture up to 24 hours of stats form the device and output the data to a CSV file for import into the monitoring platform", 
+    "Use SNMP to query the syslog MIB from the device running the IP SLA probes", 
+    "Use SNMP to query the RTTMON MIB from the device running the IP SLA probes", 
+    "Use SNMP to query the Health Monitor MIB from the device running the IP SLA probes" ,
+    "Enable the HTTP server on the device and use a GET request to https://{(host)}/ip-sla" ],
+    "answer": ["Use SNMP to query the RTTMON MIB from the device running the IP SLA probes", 
+    "Use SNMP to query the syslog MIB from the device running the IP SLA probes"]
+  },
+  {
+    "question": "Following on the previous email from Natalie, which two actions must be performed to incorporate an IP Server Level Agreement (IP SLA) probe measurement into the data collected and graphed by the monitoring platform of the operations team?(choose two)",
+    "options": ["Use the CLI to capture up to 24 hours of stats form the device and output the data to a CSV file for import into the monitoring platform", 
+    "Use SNMP to query the syslog MIB from the device running the IP SLA probes", 
+    "Use SNMP to query the RTTMON MIB from the device running the IP SLA probes", 
+    "Use SNMP to query the Netflow MIB from the device running the IP SLA probes" ,
+    "Enable the HTTP server on the device and use a GET request to https://{(host)}/ip-sla" ],
+    "answer": ["Use SNMP to query the RTTMON MIB from the device running the IP SLA probes", 
+    "Use SNMP to query the syslog MIB from the device running the IP SLA probes"]
+  },
+  {
+    "question": "Following on the previous email from Natalie, which three solutions must be used to secure all Xander's BGP peering and authorize commands on external routers, as well as generation alerts for failed login attempts?(choose three)",
+    "options": ["Disable inbound transport", 
+    "Hard clear BGP sessions for which password was configured", 
+    "Agree and set peering passwords on all peers", 
+    "USE AAA and log all login failures" ,
+    "Use HTTPS and log all login failures",
+    "Agree and set peering passwords on all internal peers" ],
+    "answer": ["Agree and set peering passwords on all peers", 
+    "Hard clear BGP sessions for which password was configured", "USE AAA and log all login failures"]
+  },
+  {
+    "question": "Which two elements must be included in the standardized switch interface design for IP phone connectivity to resolve the issue when phones connect to the network?(choose two)",
+    "options": ["Spanning tree Configuration that has portfast edge trunk enabled", 
+    "Spanning tree Configuration that has portfast edge enabled", 
+    "Cisco Discovery Protocol", 
+    "access port associated to a voice VLAN" ,
+    "VLAN pruning on the trunk ports connected to the phones" ],
+    "answer": ["Cisco Discovery Protocol", 
+    "access port associated to a voice VLAN"]
+  },
+  {
+    "question": "Which solution must Xander use to improve the determinacy of the chosen routing path from the branch networks forward the data center?",
+    "options": ["On router R23, update EIGRP to use an offset list to modify its route advertisements", 
+    "On the spoke routers, adjust the K values to tweak EIGRP metric calculations", 
+    "On router R23, use static routing forward the DMVPN spoke routers", 
+    "On router R23, modify the administrative distance of the EIGRP process" ],
+    "answer": ["On router R23, update EIGRP to use an offset list to modify its route advertisements"]
+  },
+  {
+    "type": "drag_and_drop",
+  "question": "Match the stages with the correct options:",
+  "options": [
+    "Loading",
+    "Active",
+    "Exchange",
+    "Exstart",
+    "Syncing",
+    "Int",
+    "2-way",
+    "Down"
+  ],
+  "answers": [
+    "Down",
+    "Int",
+    "2-way",
+    "Exstart",
+    "Exchange",
+    "Loading"
+  ]
+  },
+  {
+    "type": "drag_and_drop",
+  "question": "[part2]Match the stages with the correct options:",
+  "options": [
+    "Set the default route to the corporate offic by using vManage and separate the guest Wi-Fi from the corporate traffic",
+    "From Configuration in vMange, deploy a device template to the device that will be used",
+    "Force traffic to match on the VPN of the guest Wi-Fi through a locally defined NAT in the transport interface",
+    "Create a new traffic data policy named TRAFFIC_DATA_POLICY to match the employee traffic and route the traffic from VPN 3 to VPN 0",
+    "Verify that Branch #1 is configured and enable NAT on the transport interface for the internet",
+    "Modify VPN 0 to allow the VPN of the guest Wi-Fi for Branch #1"
+  ],
+  "answers": [
+    "From Configuration in vMange, deploy a device template to the device that will be used",
+    "Verify that Branch #1 is configured and enable NAT on the transport interface for the internet",
+    "Set the default route to the corporate offic by using vManage and separate the guest Wi-Fi from the corporate traffic",
+    "Create a new traffic data policy named TRAFFIC_DATA_POLICY to match the employee traffic and route the traffic from VPN 3 to VPN 0"   
+  ]
+  },
+  {
+    "type": "drag_and_drop",
+  "question": "Match the stages with the correct options:",
+  "options": [
+    "Ensure that Cisco vBond is reachable over AWS DirectConnect",
+    "Deploy a Cisco Catalyst 8000V from the AWS Marketplace",
+    "Create a transit gateway that terminates AWS DirectConnect and provides reachability between the cloud and on-premises",
+    "Utilize Cloud OnRamp for Multicloud",
+    "Deploy a Cisco Catalyst 9000V from the AWS Marketplace",
+    "Create a transit gateway that terminates an internet-facing VPN and provides reachability",
+    "Create a NAT each controller",
+    "Ensure that Cisco vBond is reachable over the internet"
+  ],
+  "answers": [
+    "Ensure that Cisco vBond is reachable over the internet",
+    "Deploy a Cisco Catalyst 8000V from the AWS Marketplace",
+    "Create a transit gateway that terminates AWS DirectConnect and provides reachability between the cloud and on-premises"
+  ]
+  },
+  {
+    "type": "drag_and_drop",
+  "question": "Match the stages with the correct options:",
+  "options": [
+    "Discover LAN devices",
+    "Create Security Group tag groups",
+    "Map pool 10.5.8.0/22 to the IOT virtual network",
+    "Create IP pool and reservations",
+    "Create a site hierarchy",
+    "Create the virtual networks",
+    "Create a fabric site",
+    "Map the virtual network to the fabric",
+    "Start LAN automation",
+    "Map pool 10.5.4.0/22 to the CORPORATE virtual network"
+  ],
+  "answers": [
+    "Discover LAN devices",
+    "Create a site hierarchy",
+    "Create IP pool and reservations",
+    "Create the virtual networks",
+    "Create a fabric site",
+    "Map the virtual network to the fabric",
+    "Map pool 10.5.8.0/22 to the IOT virtual network"
+  ]
+  },
+  {
+    "type": "drag_and_drop",
+  "question": "Match the stages with the correct options:",
+  "options": [
+    "Change of Authorization(Quarantine ability)",
+    "Closed authentication template(Authentication requirements)",
+    "Cisco identity Services Engine intergrated with an external identity store(Authorization Requirements)",
+    "Security Group Tag Access Control Lists(Prevent lateral movement)",
+    "802.11 for endpoint authentication",
+    "Security Group Tags",
+    "Low Impact authentication template",
+    "802.1X with EAP-TS for authorization"
+  ],
+  "answers": [
+    "Closed authentication template(Authentication requirements)",
+    "Change of Authorization(Quarantine ability)",
+    "Cisco identity Services Engine intergrated with an external identity store(Authorization Requirements)",
+    "Security Group Tag Access Control Lists(Prevent lateral movement)"
+  ]
+  },
+  {
+    "type": "drag_and_drop",
+  "question": "Match the stages with the correct options:",
+  "options": [
+    "On router R24, reduce the EIGRP administrative distance",
+    "On router R23, configure the existing NHRP network ID",
+    "On router R24, configure NHRP as a client of router R23",
+    "On router R23, configure a new NHRP network ID",
+    "On router R23, add NHRP as a next hop to the spoke routers",
+    "On router R23, configure NHRP as a client of router R24",
+    "On router R23, create a new tunnel interface",
+    "On router R23, start the EIGRP process on the tunnel interface"
+  ],
+  "answers": [
+    "On router R23, create a new tunnel interface",
+    "On router R23, configure the existing NHRP network ID",
+    "On router R23, configure NHRP as a client of router R24",
+    "On router R23, add NHRP as a next hop to the spoke routers",
+    "On router R23, start the EIGRP process on the tunnel interface"
+  ]
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Advertise default route into DMVPN",
+      "Stop Sending 10.7.0.0/16 routers into BGP",
+      "Redistribute default route into BGP",
+      "Stop Sending 10.6.0.0/16 routes into BGP",
+      "Ensure default routes forwards into the DMVPN",
+      "Only send DMVPN tunnel endpoint address into BGP"
+    ],
+    "column_headers": [
+      "R21",
+      "R70",
+      "R61",
+      "R62"
+    ],
+    "correct_answers": {
+      "R21": [
+        "Only send DMVPN tunnel endpoint address into BGP"
+      ],
+      "R70": [
+        "Stop Sending 10.7.0.0/16 routers into BGP",
+        "Only send DMVPN tunnel endpoint address into BGP"
+      ],
+      "R61": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Only send DMVPN tunnel endpoint address into BGP"
+      ],
+      "R62": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Only send DMVPN tunnel endpoint address into BGP"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Only advertis dafault route into DMVPN",
+      "Stop sending 10.7.0.0/16 routes into BGP",
+      "Stop sending 10.6.0.0/16 routes into BGP",
+      "Ensure default routes forwards into the DMVPN",
+      "Only send nhrp NBMA DMVPN address into BGP"
+    ],
+    "column_headers": [
+      "R24",
+      "R70",
+      "R61",
+      "R62"
+    ],
+    "correct_answers": {
+      "R24": [
+        "Only advertis dafault route into DMVPN"
+      ],
+      "R70": [
+        "Stop Sending 10.7.0.0/16 routers into BGP",
+        "Ensure default routes forwards into the DMVPN",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ],
+      "R61": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Ensure default routes forwards into the DMVPN",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ],
+      "R62": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Ensure default routes forwards into the DMVPN",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Only advertis dafault route into DMVPN",
+      "Stop sending 10.7.0.0/16 routes into BGP",
+      "Stop sending 10.6.0.0/16 routes into BGP",
+      "Only send nhrp NBMA DMVPN address into BGP"
+    ],
+    "column_headers": [
+      "R24",
+      "R70",
+      "R61",
+      "R62"
+    ],
+    "correct_answers": {
+      "R24": [
+        "Only advertis dafault route into DMVPN"
+      ],
+      "R70": [
+        "Stop Sending 10.7.0.0/16 routers into BGP",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ],
+      "R61": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ],
+      "R62": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "BPDU Guard on nonuplink ports",
+      "VLAN pruning",
+      "CDP",
+      "Loop guard",
+      "Layer 2 maximum transmission unit(MTU) jumbo frames",
+      "PortFast on access ports"
+    ],
+    "column_headers": [
+      "SW110",
+      "SW211",
+      "SW101",
+      "SW201"
+    ],
+    "correct_answers": {
+      "SW110": [
+        "BPDU Guard on nonuplink ports",
+        "VLAN pruning",
+        "CDP",
+        "Loop guard",
+        "PortFast on access ports"
+      ],
+      "SW211": [
+        "BPDU Guard on nonuplink ports",
+        "VLAN pruning",
+        "Loop guard",
+        "Layer 2 maximum transmission unit(MTU) jumbo frames",
+        "PortFast on access ports"
+      ],
+      "SW101": [
+        "BPDU Guard on nonuplink ports"
+      ],
+      "SW201": [
+        "BPDU Guard on nonuplink ports",
+        "Layer 2 maximum transmission unit(MTU) jumbo frames"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Stop sending 10.7.0.0/16 routes into BGP",
+      "Stop sending 10.6.0.0/16 routes into BGP",
+      "Ensure default routes forwards into the DMVPN",
+      "Only send nhrp NBMA DMVPN address into BGP"
+    ],
+    "column_headers": [
+      "R24",
+      "R70",
+      "R61",
+      "R62"
+    ],
+    "correct_answers": {
+      "R70": [
+        "Stop Sending 10.7.0.0/16 routers into BGP",      
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ],
+      "R61": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ],
+      "R62": [
+        "Stop Sending 10.6.0.0/16 routes into BGP",
+        "Only send nhrp NBMA DMVPN address into BGP"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Round-trip delay, jitter and packet loss",
+      "FTP transfer",
+      "One-way delay, jitter, and packet loss",
+      "Accurate network RTD",
+      "DNS lookup response",
+      "HTTP/HTTPS request response",
+      "TCP connect response",
+      "DHCP request completion",
+      "UDP echo measurement"
+    ],
+    "column_headers": [
+      "IP SLA Responder",
+      "IPv4 Host",
+      "Application Server"
+    ],
+    "correct_answers": {
+      "IP SLA Responder": [
+        "Round-trip delay, jitter and packet loss",
+        "FTP transfer",
+        "DNS lookup response",
+        "HTTP/HTTPS request response",
+        "TCP connect response",
+        "UDP echo measurement"
+      ],
+      "IPv4 Host": [
+        "Accurate network RTD",
+        "TCP connect response",
+        "UDP echo measurement"
+      ],
+      "Application Server": [
+        "FTP transfer",
+        "One-way delay, jitter, and packet loss",
+        "DNS lookup response",
+        "HTTP/HTTPS request response",
+        "DHCP request completion"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Round-trip delay, jitter and packet loss",
+      "FTP transfer",
+      "DNS lookup response",
+      "HTTP/HTTPS request response",
+      "TCP connect response",
+      "DHCP request completion",
+      "UDP echo measurement"
+    ],
+    "column_headers": [
+      "IPv4 Host",
+      "Application Server"
+    ],
+    "correct_answers": {
+      "IPv4 Host": [
+        "Round-trip delay, jitter and packet loss",
+        "TCP connect response",
+        "UDP echo measurement"
+      ],
+      "Application Server": [
+        "Round-trip delay, jitter and packet loss",
+        "FTP transfer",
+        "DNS lookup response",
+        "HTTP/HTTPS request response",
+        "TCP connect response",
+        "DHCP request completion",
+        "UDP echo measurement"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Aplication-aware routing",
+      "Direct internet access with next-hop rewrite",
+      "Topology changes",
+      "Interface access control list",
+      "OSPF routing policy"
+    ],
+    "column_headers": [
+      "Localized data policy",
+      "Centralized data policy",
+      "Centralized control policy",
+      "Localized control policy"
+    ],
+    "correct_answers": {
+      "Localized data policy": [
+        "Interface access control list"
+      ],
+      "Centralized data policy": [
+        "Aplication-aware routing",
+        "Direct internet access with next-hop rewrite"
+      ],
+      "Centralized control policy": [
+        "Topology changes"
+      ],
+      "Localized control policy": [
+        "OSPF routing policy"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Aplication based route policy",
+      "Direct internet access with next-hop rewrite",
+      "Topology changes",
+      "OSPF routing policy"
+    ],
+    "column_headers": [
+      "Centralized data policy",
+      "Centralized control policy",
+      "Localized control policy"
+    ],
+    "correct_answers": {
+      "Centralized data policy": [
+        "Aplication based route policy",
+        "Direct internet access with next-hop rewrite"
+      ],
+      "Centralized control policy": [
+        "Topology changes"
+      ],
+      "Localized control policy": [
+        "OSPF routing policy"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Supports streaming",
+      "Supports OSPF XPath message in Cisco IOS XE",
+      "Supported on Cisco IOS XE",
+      "Supported polling",
+      "Supports a subscription model",
+      "Has a defined YANG schema"
+    ],
+    "column_headers": [
+      "SNMP",
+      "CLI",
+      "gRPC"
+    ],
+    "correct_answers": {
+      "SNMP": [
+        "Supported on Cisco IOS XE",
+        "Supported polling"
+      ],
+      "CLI": [
+        "Supported on Cisco IOS XE",
+        "Supported polling"
+      ],
+      "gRPC": [
+        "Supports streaming",
+        "Supports OSPF XPath message in Cisco IOS XE",
+        "Supported on Cisco IOS XE",
+        "Supports a subscription model",
+        "Has a defined YANG schema"
+      ]
+    }
+  },
+  {
+    "type": "grid_multiple_items",
+    "question": "Select the appropriate options for each measurement type:",
+    "row_headers": [
+      "Supports streaming",
+      "Supports OSPF XPath message in Cisco IOS XE",
+      "Supported on Cisco IOS XE",
+      "Supported polling",
+      "Supports a subscription model",
+      "Has a defined YANG schema"
+    ],
+    "column_headers": [
+      "CLI",
+      "gRPC"
+    ],
+    "correct_answers": {
+
+      "CLI": [
+        "Supported on Cisco IOS XE",
+        "Supported polling"
+      ],
+      "gRPC": [
+        "Supports streaming",
+        "Supports OSPF XPath message in Cisco IOS XE",
+        "Supported on Cisco IOS XE",
+        "Supports a subscription model",
+        "Has a defined YANG schema"
+      ]
+    }
+  },
+  {
+    "type": "category_drag_drop",
+    "question": "Drag and drop the appropriate options to the correct categories:",
+    "options": [
+      "Block ICMP Type 3 Code 4",
+      "Rate limit ICMP",
+      "Block all TCP 179 connections",
+      "Block all multicast",
+      "Block RFC 1918 address on external interfaces",
+      "Restrict BGP connections",
+      "Perform a Unicast Reverse Path Forwarding check",
+      "Disable Telnet",
+      "Create a virtual Teletype access control list"
+    ],
+    "categories": ["Control plane", "Data plane"],
+    "correct_answers": {
+      "Control plane": [
+        "Restrict BGP connections",
+        "Disable Telnet",
+        "Create a virtual Teletype access control list"
+      ],
+      "Data plane": [
+        "Rate limit ICMP",
+        "Block RFC 1918 address on external interfaces",
+        "Perform a Unicast Reverse Path Forwarding check"
+      ]
+    }
+  },
+  {
+    "type": "category_drag_drop",
+    "question": "Drag and drop the appropriate options to the correct categories:",
+    "options": [
+      "Block ICMP Type 3 Code 4",
+      "Rate limit ICMP",
+      "Block all TCP 179 connections",
+      "Block all multicast",
+      "Restrict BGP connections",
+      "Perform a Unicast Reverse Path Forwarding check",
+      "Disable Telnet"
+    ],
+    "categories": ["Control plane", "Data plane"],
+    "correct_answers": {
+      "Control plane": [
+        "Restrict BGP connections",
+        "Disable Telnet"
+      ],
+      "Data plane": [
+        "Rate limit ICMP",
+        "Perform a Unicast Reverse Path Forwarding check"
+      ]
+    }
+  }
+]
