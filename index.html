@@ -198,6 +198,7 @@
         }
 
         function checkAnswer() {
+            console.log("Checking answer for question:", currentQuestionIndex);
             const question = questions[currentQuestionIndex];
             let isCorrect = false;
 
@@ -209,12 +210,7 @@
                 isCorrect = checkSingleMultipleChoice(question);
             }
 
-            if (isCorrect) {
-                alert('정답입니다!');
-            } else {
-                alert('틀렸습니다. 다시 시도해보세요.');
-            }
-
+            console.log("Is answer correct?", isCorrect);
             return isCorrect;
         }
 
@@ -257,10 +253,15 @@
         }
 
         document.getElementById('submit-btn').addEventListener('click', () => {
+            console.log("Submit button clicked");
             if (checkAnswer()) {
+                console.log("Correct answer");
                 score++;
+            } else {
+                console.log("Incorrect answer");
             }
             currentQuestionIndex++;
+            console.log("Moving to next question:", currentQuestionIndex);
             if (currentQuestionIndex < questions.length) {
                 displayQuestion();
             } else {
