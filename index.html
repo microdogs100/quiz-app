@@ -53,6 +53,13 @@
         let questions = [];
         let score = 0;
 
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
         async function loadQuestions() {
             try {
                 const response = await fetch('questions.json');
@@ -61,6 +68,7 @@
                 }
                 const data = await response.json();
                 questions = data;
+                shuffleArray(questions);
                 console.log('Loaded questions:', questions); // 디버깅용
                 if (questions.length > 0) {
                     displayQuestion();
