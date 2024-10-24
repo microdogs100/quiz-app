@@ -43,6 +43,32 @@
             color: #999;
             text-align: center;
         }
+        .draggable-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .draggable, .dropped-item {
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: move;
+        }
+        .category {
+            margin-bottom: 15px;
+        }
+        .category-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .category-items {
+            min-height: 50px;
+            border: 2px dashed #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +119,7 @@
             
             if (question.type === 'category_drag_drop') {
                 html += '<div id="options" class="draggable-container">';
+                shuffleArray(question.options); // 옵션 순서를 섞습니다
                 question.options.forEach(option => {
                     html += `<div class="draggable" draggable="true">${option}</div>`;
                 });
@@ -100,7 +127,7 @@
                 question.categories.forEach((category, index) => {
                     html += `<div class="category">
                         <div class="category-title">${category}</div>
-                        <div class="category-items" data-category="${index}"></div>
+                        <div class="category-items droppable" data-category="${index}"></div>
                     </div>`;
                 });
             } else if (question.type === 'grid_multiple_items') {
@@ -162,7 +189,11 @@
             categoryContainers.forEach(container => {
                 new Sortable(container, {
                     group: 'shared',
-                    animation: 150
+                    animation: 150,
+                    onAdd: function (evt) {
+                        evt.item.classList.remove('draggable');
+                        evt.item.classList.add('dropped-item');
+                    }
                 });
             });
         }
