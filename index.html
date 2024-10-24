@@ -191,7 +191,6 @@
                     group: 'shared',
                     animation: 150,
                     onAdd: function (evt) {
-                        evt.item.classList.remove('draggable');
                         evt.item.classList.add('dropped-item');
                     }
                 });
@@ -222,7 +221,7 @@
         function checkCategoryDragDrop(question) {
             let isCorrect = true;
             question.categories.forEach((category, index) => {
-                const categoryItems = Array.from(document.querySelectorAll(`.category-items[data-category="${index}"] .draggable`))
+                const categoryItems = Array.from(document.querySelectorAll(`.category-items[data-category="${index}"] > div`))
                                            .map(item => item.textContent.trim());
                 const correctAnswers = question.correct_answers[category];
                 if (JSON.stringify(categoryItems.sort()) !== JSON.stringify(correctAnswers.sort())) {
