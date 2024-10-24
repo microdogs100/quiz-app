@@ -520,7 +520,7 @@
     "answer": ["On router R23, update EIGRP to use an offset list to modify its route advertisements"]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "Loading",
@@ -542,7 +542,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "[part2]Match the stages with the correct options:",
   "options": [
     "Set the default route to the corporate offic by using vManage and separate the guest Wi-Fi from the corporate traffic",
@@ -560,7 +560,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "Ensure that Cisco vBond is reachable over AWS DirectConnect",
@@ -579,7 +579,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "Discover LAN devices",
@@ -604,7 +604,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "Use a GET request to list the devices",
@@ -623,7 +623,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "SW510 replaces the broadcast MAC address from the ARP request with the MAC address of the remote endpoint, encapsulates the ARP to the VXLAN and forwards to the Loopback 0 address of the SW611 sources from the VTEP IP address of SW510",
@@ -644,7 +644,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "Mark with DSCP AF41 on SW700(Video traffic marking)",
@@ -669,7 +669,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "Change of Authorization(Quarantine ability)",
@@ -689,7 +689,7 @@
   ]
   },
   {
-    "type": "drag_and_drop",
+    "type": "category_drag_drop",
   "question": "Match the stages with the correct options:",
   "options": [
     "On router R24, reduce the EIGRP administrative distance",
