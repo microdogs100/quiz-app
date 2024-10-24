@@ -136,95 +136,53 @@
                 return;
             }
 
-            const question = shuffleOptions(questions[currentQuestionIndex]);
+            const question = questions[currentQuestionIndex];
             let html = `<h2>${question.question}</h2>`;
 
             if (question.type === 'category_drag_drop') {
-                if (Array.isArray(question.options) && Array.isArray(question.categories)) {
-                    html += '<div id="options" class="draggable-container">';
-                    question.options.forEach(option => {
-                        html += `<div class="draggable" draggable="true">${option}</div>`;
-                    });
-                    html += '</div>';
-                    html += '<div id="categories-container">';
-                    question.categories.forEach((category, index) => {
-                        html += `
-                            <div class="category">
-                                <div class="category-title">${category}</div>
-                                <div class="category-items droppable" data-category="${index}"></div>
-                            </div>`;
-                    });
-                    html += '</div>';
-                } else {
-                    html += '<p>이 드래그 앤 드롭 문제의 데이터가 올바르지 않습니다.</p>';
-                }
+                html += createCategoryDragDropHtml(question);
+            } else if (question.type === 'drag_drop') {
+                html += createDragDropHtml(question);
             } else if (question.type === 'grid_multiple_items') {
-                if (Array.isArray(question.column_headers) && Array.isArray(question.row_headers)) {
-                    html += '<table><tr><th></th>';
-                    question.column_headers.forEach(header => {
-                        html += `<th>${header}</th>`;
-                    });
-                    html += '</tr>';
-                    question.row_headers.forEach((rowHeader, rowIndex) => {
-                        html += `<tr><td>${rowHeader}</td>`;
-                        question.column_headers.forEach((colHeader, colIndex) => {
-                            html += `<td><input type="checkbox" name="grid-${rowIndex}-${colIndex}"></td>`;
-                        });
-                        html += '</tr>';
-                    });
-                    html += '</table>';
-                } else {
-                    html += '<p>이 그리드 다중 항목 문제의 데이터가 올바르지 않습니다.</p>';
-                }
+                html += createGridMultipleItemsHtml(question);
             } else {
-                // 일반 선택 문제 처리
-                if (Array.isArray(question.options)) {
-                    question.options.forEach((option, index) => {
-                        html += `<label>
-                            <input type="radio" name="quiz" value="${index}">
-                            ${option}
-                        </label><br>`;
-                    });
-                } else {
-                    html += '<p>이 문제에 대한 옵션이 없습니다.</p>';
-                }
+                html += createMultipleChoiceHtml(question);
             }
 
             quizContainer.innerHTML = html;
 
-            if (question.type === 'category_drag_drop') {
-                setupDragAndDrop();
+            if (question.type === 'category_drag_drop' || question.type === 'drag_drop') {
+                setupDragAndDrop(question.type);
             }
 
             // Submit 버튼 표시
             document.getElementById('submit-btn').style.display = 'block';
         }
 
-        function setupDragAndDrop() {
+        function setupDragAndDrop(type) {
             const optionsContainer = document.getElementById('options');
-            const categoryContainers = document.querySelectorAll('.category-items');
+            const items = optionsContainer.querySelectorAll('.draggable');
             
-            if (optionsContainer) {
-                new Sortable(optionsContainer, {
-                    group: {
-                        name: 'shared',
-                        pull: 'clone',
-                        put: false
-                    },
-                    animation: 150,
-                    sort: false
-                });
-            }
-
-            categoryContainers.forEach(container => {
-                new Sortable(container, {
-                    group: 'shared',
-                    animation: 150,
-                    onAdd: function (evt) {
-                        evt.item.classList.add('dropped-item');
-                    }
-                });
+            items.forEach(item => {
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragend', dragEnd);
             });
+
+            if (type === 'category_drag_drop') {
+                const categories = document.querySelectorAll('.category-items');
+                categories.forEach(category => {
+                    category.addEventListener('dragover', dragOver);
+                    category.addEventListener('dragenter', dragEnter);
+                    category.addEventListener('dragleave', dragLeave);
+                    category.addEventListener('drop', drop);
+                });
+            } else if (type === 'drag_drop') {
+                const answerContainer = document.getElementById('answer-container');
+                answerContainer.addEventListener('dragover', dragOver);
+                answerContainer.addEventListener('dragenter', dragEnter);
+                answerContainer.addEventListener('dragleave', dragLeave);
+                answerContainer.addEventListener('drop', drop);
+            }
         }
 
         function checkAnswer() {
@@ -234,6 +192,8 @@
             try {
                 if (question.type === 'category_drag_drop') {
                     isCorrect = checkCategoryDragDrop(question);
+                } else if (question.type === 'drag_drop') {
+                    isCorrect = checkDragDrop(question);
                 } else if (question.type === 'grid_multiple_items') {
                     isCorrect = checkGridMultipleItems(question);
                 } else {
@@ -268,6 +228,12 @@
                 }
             });
             return isCorrect;
+        }
+
+        function checkDragDrop(question) {
+            const answerContainer = document.getElementById('answer-container');
+            const userAnswer = Array.from(answerContainer.children).map(item => item.textContent);
+            return JSON.stringify(userAnswer) === JSON.stringify(question.answer);
         }
 
         function checkGridMultipleItems(question) {
@@ -341,6 +307,64 @@
             currentQuestionIndex = 0;
             score = 0;
             displayQuestion();
+        }
+
+        function createCategoryDragDropHtml(question) {
+            let html = '<div id="options" class="draggable-container">';
+            question.options.forEach(option => {
+                html += `<div class="draggable" draggable="true">${option}</div>`;
+            });
+            html += '</div><div id="categories-container">';
+            question.categories.forEach((category, index) => {
+                html += `
+                    <div class="category">
+                        <div class="category-title">${category}</div>
+                        <div class="category-items droppable" data-category="${index}"></div>
+                    </div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function createDragDropHtml(question) {
+            let html = '<div id="options" class="draggable-container">';
+            question.options.forEach(option => {
+                html += `<div class="draggable" draggable="true">${option}</div>`;
+            });
+            html += '</div><div id="answer-container" class="droppable"></div>';
+            return html;
+        }
+
+        function createGridMultipleItemsHtml(question) {
+            let html = '<table><tr><th></th>';
+            question.column_headers.forEach(header => {
+                html += `<th>${header}</th>`;
+            });
+            html += '</tr>';
+            question.row_headers.forEach((rowHeader, rowIndex) => {
+                html += `<tr><td>${rowHeader}</td>`;
+                question.column_headers.forEach((colHeader, colIndex) => {
+                    html += `<td><input type="checkbox" name="grid-${rowIndex}-${colIndex}"></td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</table>';
+            return html;
+        }
+
+        function createMultipleChoiceHtml(question) {
+            let html = '';
+            if (Array.isArray(question.options)) {
+                question.options.forEach((option, index) => {
+                    html += `<label>
+                        <input type="radio" name="quiz" value="${index}">
+                        ${option}
+                    </label><br>`;
+                });
+            } else {
+                html += '<p>이 문제에 대한 옵션이 없습니다.</p>';
+            }
+            return html;
         }
     </script>
 </body>
