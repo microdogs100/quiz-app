@@ -50,31 +50,30 @@
     <div id="quiz-container"></div>
     <button id="submit-btn" style="display: none;">Submit</button>
     <script>
-        const questions = [
-            {
-    "question": "Which two spanning tree configurations meet the requirements of Charlie Brown?(choose two)",
-    "options": ["Make SW201 the root for all the VLANs and make SW202 the secondary", 
-    "Reduce the forward time of the spanning tree", 
-    "Implement MSTP", 
-    "Reduce the max age of the spanning tree",
-    "Reduce the hello timer of the spanning tree",
-    "Make SW201 the root for the even VLANs and make SW202 the root for the odd VLANs" ],
-    "answer": ["Reduce the hello timer of the spanning tree", 
-    "Make SW201 the root for the even VLANs and make SW202 the root for the odd VLANs"]
-              }
-        ];
-
+        let questions = [];
         let score = 0;
 
-        function loadQuestions() {
-            if (questions.length > 0) {
-                displayQuestion();
-            } else {
-                showError("No questions loaded. Please check your questions data.");
+        async function loadQuestions() {
+            try {
+                const response = await fetch('questions.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                questions = data;
+                console.log('Loaded questions:', questions); // 디버깅용
+                if (questions.length > 0) {
+                    displayQuestion();
+                } else {
+                    showError("No questions loaded. Please check your questions.json file.");
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                showError("Failed to load questions. Please try again later. Error: " + error.message);
             }
         }
 
-        async function displayQuestion() {
+        function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             const submitBtn = document.getElementById('submit-btn');
             
