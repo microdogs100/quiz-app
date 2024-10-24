@@ -116,20 +116,24 @@
             let html = `<h2>${question.question}</h2>`;
 
             if (question.type === 'category_drag_drop') {
-                html += '<div id="options" class="draggable-container">';
-                question.options.forEach(option => {
-                    html += `<div class="draggable" draggable="true">${option}</div>`;
-                });
-                html += '</div>';
-                html += '<div id="categories-container">';
-                question.categories.forEach((category, index) => {
-                    html += `
-                        <div class="category">
-                            <div class="category-title">${category}</div>
-                            <div class="category-items droppable" data-category="${index}"></div>
-                        </div>`;
-                });
-                html += '</div>';
+                if (Array.isArray(question.options) && Array.isArray(question.categories)) {
+                    html += '<div id="options" class="draggable-container">';
+                    question.options.forEach(option => {
+                        html += `<div class="draggable" draggable="true">${option}</div>`;
+                    });
+                    html += '</div>';
+                    html += '<div id="categories-container">';
+                    question.categories.forEach((category, index) => {
+                        html += `
+                            <div class="category">
+                                <div class="category-title">${category}</div>
+                                <div class="category-items droppable" data-category="${index}"></div>
+                            </div>`;
+                    });
+                    html += '</div>';
+                } else {
+                    html += '<p>이 드래그 앤 드롭 문제의 데이터가 올바르지 않습니다.</p>';
+                }
             } else if (question.type === 'grid_multiple_items') {
                 html += '<table><tr><th></th>';
                 question.column_headers.forEach(header => {
@@ -208,12 +212,17 @@
         }
 
         function checkCategoryDragDrop(question) {
+            if (!question.categories || !question.correct_answers) {
+                console.error('드래그 앤 드롭 문제의 데이터가 올바르지 않습니다.');
+                return false;
+            }
+
             let isCorrect = true;
             question.categories.forEach((category, index) => {
                 const categoryItems = Array.from(document.querySelectorAll(`.category-items[data-category="${index}"] > div`))
                                            .map(item => item.textContent.trim());
                 const correctAnswers = question.correct_answers[category];
-                if (JSON.stringify(categoryItems.sort()) !== JSON.stringify(correctAnswers.sort())) {
+                if (!Array.isArray(correctAnswers) || JSON.stringify(categoryItems.sort()) !== JSON.stringify(correctAnswers.sort())) {
                     isCorrect = false;
                 }
             });
