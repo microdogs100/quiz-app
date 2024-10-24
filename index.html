@@ -81,11 +81,35 @@
         let questions = [];
         let score = 0;
 
+        // 배열을 무작위로 섞는 함수
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
+            return array;
+        }
+
+        // 문제를 섞는 함수
+        function shuffleQuestions() {
+            questions = shuffleArray(questions);
+        }
+
+        // 보기를 섞는 함수
+        function shuffleOptions(question) {
+            if (question.options) {
+                const shuffledOptions = shuffleArray([...question.options]);
+                // 정답의 인덱스를 업데이트
+                if (Array.isArray(question.answer)) {
+                    question.answer = question.answer.map(ans => 
+                        shuffledOptions[question.options.indexOf(ans)]
+                    );
+                } else if (typeof question.answer === 'string') {
+                    question.answer = shuffledOptions[question.options.indexOf(question.answer)];
+                }
+                question.options = shuffledOptions;
+            }
+            return question;
         }
 
         async function loadQuestions() {
@@ -112,7 +136,7 @@
                 return;
             }
 
-            const question = questions[currentQuestionIndex];
+            const question = shuffleOptions(questions[currentQuestionIndex]);
             let html = `<h2>${question.question}</h2>`;
 
             if (question.type === 'category_drag_drop') {
@@ -153,7 +177,7 @@
                     html += '<p>이 그리드 다중 항목 문제의 데이터가 올바르지 않습니다.</p>';
                 }
             } else {
-                // 일반 선택��� 문제 처리
+                // 일반 선택 문제 처리
                 if (Array.isArray(question.options)) {
                     question.options.forEach((option, index) => {
                         html += `<label>
@@ -207,12 +231,17 @@
             const question = questions[currentQuestionIndex];
             let isCorrect = false;
 
-            if (question.type === 'category_drag_drop') {
-                isCorrect = checkCategoryDragDrop(question);
-            } else if (question.type === 'grid_multiple_items') {
-                isCorrect = checkGridMultipleItems(question);
-            } else {
-                isCorrect = checkSingleMultipleChoice(question);
+            try {
+                if (question.type === 'category_drag_drop') {
+                    isCorrect = checkCategoryDragDrop(question);
+                } else if (question.type === 'grid_multiple_items') {
+                    isCorrect = checkGridMultipleItems(question);
+                } else {
+                    isCorrect = checkSingleMultipleChoice(question);
+                }
+            } catch (error) {
+                console.error(`Error checking answer for question ${currentQuestionIndex}:`, error);
+                console.error('Question data:', JSON.stringify(question, null, 2));
             }
 
             return isCorrect;
@@ -305,6 +334,14 @@
 
         // 페이지 로드 시 질문을 불러옵니다
         window.onload = loadQuestions;
+
+        // 퀴즈 시작 시 문제 섞기
+        function startQuiz() {
+            shuffleQuestions();
+            currentQuestionIndex = 0;
+            score = 0;
+            displayQuestion();
+        }
     </script>
 </body>
 </html>
