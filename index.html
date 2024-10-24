@@ -257,9 +257,17 @@
         }
 
         function checkDragDrop(question) {
-            const answerContainer = document.getElementById('answer-container');
-            const userAnswer = Array.from(answerContainer.children).map(item => item.textContent);
-            return JSON.stringify(userAnswer) === JSON.stringify(question.answer);
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const userAnswer = Array.from(dropZones).map(zone => {
+                const draggable = zone.firstElementChild;
+                return draggable ? draggable.textContent : null;
+            }).filter(answer => answer !== null);
+
+            if (Array.isArray(question.answer)) {
+                return JSON.stringify(userAnswer) === JSON.stringify(question.answer);
+            } else {
+                return userAnswer.length === 1 && userAnswer[0] === question.answer;
+            }
         }
 
         function checkGridMultipleItems(question) {
@@ -358,7 +366,10 @@
                 html += `<div id="draggable-${index}" class="draggable" draggable="true">${option}</div>`;
             });
             html += '</div><div id="answer-container">';
-            for (let i = 0; i < question.options.length; i++) {
+            
+            // answers 배열의 길이만큼 드롭 영역 생성
+            const answerCount = Array.isArray(question.answer) ? question.answer.length : 1;
+            for (let i = 0; i < answerCount; i++) {
                 html += `<div class="drop-zone" data-index="${i}"></div>`;
             }
             html += '</div>';
