@@ -99,11 +99,34 @@
                     </div>`;
                 });
             } else if (question.type === 'grid_multiple_items') {
-                // 그리드 다중 항목 유형 처리
-                // ... (기존 코드)
+                html += '<table><tr><th></th>';
+                question.column_headers.forEach(header => {
+                    html += `<th>${header}</th>`;
+                });
+                html += '</tr>';
+                question.row_headers.forEach((rowHeader, rowIndex) => {
+                    html += `<tr><th>${rowHeader}</th>`;
+                    question.column_headers.forEach((_, colIndex) => {
+                        html += `<td>
+                            <input type="checkbox" 
+                                   name="q${currentQuestionIndex}r${rowIndex}c${colIndex}" 
+                                   id="q${currentQuestionIndex}r${rowIndex}c${colIndex}">
+                        </td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</table>';
             } else {
-                // 단일 선택, 다중 선택 유형 처리
-                // ... (기존 코드)
+                const inputType = (question.type === 'multiple_choice' || Array.isArray(question.answer)) ? 'checkbox' : 'radio';
+                question.options.forEach((option, index) => {
+                    html += `<div>
+                        <input type="${inputType}" 
+                               name="q${currentQuestionIndex}" 
+                               value="${option}" 
+                               id="q${currentQuestionIndex}o${index}">
+                        <label for="q${currentQuestionIndex}o${index}">${option}</label>
+                    </div>`;
+                });
             }
             
             document.getElementById('quiz-container').innerHTML = html;
