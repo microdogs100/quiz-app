@@ -51,6 +51,7 @@
     <button id="submit-btn" style="display: none;">Submit</button>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
+        let currentQuestionIndex = 0;
         let questions = [];
         let score = 0;
 
@@ -67,11 +68,10 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data = await response.json();
-                questions = data;
-                shuffleArray(questions);
+                questions = await response.json();
                 console.log('Loaded questions:', questions); // 디버깅용
                 if (questions.length > 0) {
+                    currentQuestionIndex = 0; // 여기서 초기화
                     displayQuestion();
                 } else {
                     showError("No questions loaded. Please check your questions.json file.");
@@ -83,6 +83,10 @@
         }
 
         function displayQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showFinalScore();
+                return;
+            }
             const question = questions[currentQuestionIndex];
             let html = `<h3>${question.question}</h3>`;
             
