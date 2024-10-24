@@ -117,17 +117,19 @@
 
             if (question.type === 'category_drag_drop') {
                 html += '<div id="options" class="draggable-container">';
-                shuffleArray(question.options); // 옵션 순서를 섞습니다
                 question.options.forEach(option => {
                     html += `<div class="draggable" draggable="true">${option}</div>`;
                 });
                 html += '</div>';
+                html += '<div id="categories-container">';
                 question.categories.forEach((category, index) => {
-                    html += `<div class="category">
-                        <div class="category-title">${category}</div>
-                        <div class="category-items droppable" data-category="${index}"></div>
-                    </div>`;
+                    html += `
+                        <div class="category">
+                            <div class="category-title">${category}</div>
+                            <div class="category-items droppable" data-category="${index}"></div>
+                        </div>`;
                 });
+                html += '</div>';
             } else if (question.type === 'grid_multiple_items') {
                 html += '<table><tr><th></th>';
                 question.column_headers.forEach(header => {
@@ -135,34 +137,29 @@
                 });
                 html += '</tr>';
                 question.row_headers.forEach((rowHeader, rowIndex) => {
-                    html += `<tr><th>${rowHeader}</th>`;
-                    question.column_headers.forEach((_, colIndex) => {
-                        html += `<td>
-                            <input type="checkbox" 
-                                   name="q${currentQuestionIndex}r${rowIndex}c${colIndex}" 
-                                   id="q${currentQuestionIndex}r${rowIndex}c${colIndex}">
-                        </td>`;
+                    html += `<tr><td>${rowHeader}</td>`;
+                    question.column_headers.forEach((colHeader, colIndex) => {
+                        html += `<td><input type="checkbox" name="grid-${rowIndex}-${colIndex}"></td>`;
                     });
                     html += '</tr>';
                 });
                 html += '</table>';
             } else {
-                const inputType = (question.type === 'multiple_choice' || Array.isArray(question.answer)) ? 'checkbox' : 'radio';
-                let options = [...question.options];
-                shuffleArray(options); // 보기 순서 섞기
-                options.forEach((option, index) => {
-                    html += `<div>
-                        <input type="${inputType}" 
-                               name="q${currentQuestionIndex}" 
-                               value="${option}" 
-                               id="q${currentQuestionIndex}o${index}">
-                        <label for="q${currentQuestionIndex}o${index}">${option}</label>
-                    </div>`;
-                });
+                // 일반 선택형 문제 처리
+                if (Array.isArray(question.options)) {
+                    question.options.forEach((option, index) => {
+                        html += `<label>
+                            <input type="radio" name="quiz" value="${index}">
+                            ${option}
+                        </label><br>`;
+                    });
+                } else {
+                    html += '<p>이 문제에 대한 옵션이 없습니다.</p>';
+                }
             }
-            
+
             quizContainer.innerHTML = html;
-            
+
             if (question.type === 'category_drag_drop') {
                 setupDragAndDrop();
             }
@@ -196,7 +193,6 @@
         }
 
         function checkAnswer() {
-            console.log("Checking answer for question:", currentQuestionIndex);
             const question = questions[currentQuestionIndex];
             let isCorrect = false;
 
@@ -208,7 +204,6 @@
                 isCorrect = checkSingleMultipleChoice(question);
             }
 
-            console.log("Is answer correct?", isCorrect);
             return isCorrect;
         }
 
@@ -227,27 +222,22 @@
 
         function checkGridMultipleItems(question) {
             let isCorrect = true;
-            for (let col in question.correct_answers) {
-                const correctAnswers = question.correct_answers[col];
-                const userAnswers = question.row_headers.filter((_, rowIndex) => 
-                    document.getElementById(`q${currentQuestionIndex}r${rowIndex}c${question.column_headers.indexOf(col)}`).checked
-                );
-                if (JSON.stringify(correctAnswers.sort()) !== JSON.stringify(userAnswers.sort())) {
-                    isCorrect = false;
-                    break;
-                }
-            }
+            question.column_headers.forEach((colHeader, colIndex) => {
+                const correctAnswers = question.correct_answers[colHeader];
+                question.row_headers.forEach((rowHeader, rowIndex) => {
+                    const checkbox = document.querySelector(`input[name="grid-${rowIndex}-${colIndex}"]`);
+                    if (checkbox.checked !== correctAnswers.includes(rowHeader)) {
+                        isCorrect = false;
+                    }
+                });
+            });
             return isCorrect;
         }
 
         function checkSingleMultipleChoice(question) {
-            const selectedOptions = Array.from(document.querySelectorAll(`input[name="q${currentQuestionIndex}"]:checked`))
-                                         .map(input => input.value);
-            if (Array.isArray(question.answer)) {
-                return JSON.stringify(selectedOptions.sort()) === JSON.stringify(question.answer.sort());
-            } else {
-                return selectedOptions.length === 1 && selectedOptions[0] === question.answer;
-            }
+            const selectedOption = document.querySelector('input[name="quiz"]:checked');
+            if (!selectedOption) return false;
+            return question.answer.includes(question.options[selectedOption.value]);
         }
 
         document.getElementById('submit-btn').addEventListener('click', () => {
