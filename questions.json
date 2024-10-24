@@ -550,7 +550,7 @@
     "Force traffic to match on the VPN of the guest Wi-Fi through a locally defined NAT in the transport interface",
     "Create a new traffic data policy named TRAFFIC_DATA_POLICY to match the employee traffic and route the traffic from VPN 3 to VPN 0",
     "Verify that Branch #1 is configured and enable NAT on the transport interface for the internet",
-    "Modify VPN 0 to allow the VPN of the guest Wi-Fi for Branch #1"
+    "Modify VPN 0 to allow the VPN of the guest Wi-Fi for Branch #1" 
   ],
   "answers": [
     "From Configuration in vMange, deploy a device template to the device that will be used",
@@ -1066,7 +1066,7 @@
     ],
     "correct_answers": {
       "R70": [
-        "Stop Sending 10.7.0.0/16 routers into BGP",      
+        "Stop Sending 10.7.0.0/16 routes into BGP",      
         "Only send nhrp NBMA DMVPN address into BGP"
       ],
       "R61": [
