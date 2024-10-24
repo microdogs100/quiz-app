@@ -153,7 +153,7 @@
                     html += '<p>이 그리드 다중 항목 문제의 데이터가 올바르지 않습니다.</p>';
                 }
             } else {
-                // 일반 선택형 문제 처리
+                // 일반 선택��� 문제 처리
                 if (Array.isArray(question.options)) {
                     question.options.forEach((option, index) => {
                         html += `<label>
@@ -219,7 +219,7 @@
         }
 
         function checkCategoryDragDrop(question) {
-            if (!question.categories || !question.correct_answers) {
+            if (!question.categories || !question.correct_answers || typeof question.correct_answers !== 'object') {
                 console.error('드래그 앤 드롭 문제의 데이터가 올바르지 않습니다.');
                 return false;
             }
@@ -229,7 +229,12 @@
                 const categoryItems = Array.from(document.querySelectorAll(`.category-items[data-category="${index}"] > div`))
                                            .map(item => item.textContent.trim());
                 const correctAnswers = question.correct_answers[category];
-                if (!Array.isArray(correctAnswers) || JSON.stringify(categoryItems.sort()) !== JSON.stringify(correctAnswers.sort())) {
+                if (!Array.isArray(correctAnswers)) {
+                    console.error(`${category}에 대한 올바른 답변이 배열이 아닙니다.`);
+                    isCorrect = false;
+                    return;
+                }
+                if (JSON.stringify(categoryItems.sort()) !== JSON.stringify(correctAnswers.sort())) {
                     isCorrect = false;
                 }
             });
@@ -237,7 +242,7 @@
         }
 
         function checkGridMultipleItems(question) {
-            if (!question.column_headers || !question.row_headers || !question.correct_answers) {
+            if (!question.column_headers || !question.row_headers || !question.correct_answers || typeof question.correct_answers !== 'object') {
                 console.error('그리드 다중 항목 문제의 데이터가 올바르지 않습니다.');
                 return false;
             }
