@@ -95,28 +95,26 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 questions = await response.json();
-                shuffleArray(questions); // 문제 순서 섞기
-                console.log('Loaded questions:', questions);
-                if (questions.length > 0) {
-                    currentQuestionIndex = 0;
-                    displayQuestion();
-                } else {
-                    showError("No questions loaded. Please check your questions.json file.");
+                if (!Array.isArray(questions) || questions.length === 0) {
+                    throw new Error('문제 데이터가 올바르지 않습니다.');
                 }
+                displayQuestion();
             } catch (error) {
-                console.error('Error loading questions:', error);
-                showError("Failed to load questions. Please try again later. Error: " + error.message);
+                console.error('문제를 불러오는 데 실패했습니다:', error);
+                document.getElementById('quiz-container').innerHTML = '<p>문제를 불러오는 데 실패했습니다.</p>';
             }
         }
 
         function displayQuestion() {
-            if (currentQuestionIndex >= questions.length) {
-                showFinalScore();
+            const quizContainer = document.getElementById('quiz-container');
+            if (!questions || questions.length === 0 || currentQuestionIndex >= questions.length) {
+                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패했습니다.</p>';
                 return;
             }
+
             const question = questions[currentQuestionIndex];
-            let html = `<h3>${question.question}</h3>`;
-            
+            let html = `<h2>${question.question}</h2>`;
+
             if (question.type === 'category_drag_drop') {
                 html += '<div id="options" class="draggable-container">';
                 shuffleArray(question.options); // 옵션 순서를 섞습니다
@@ -163,7 +161,7 @@
                 });
             }
             
-            document.getElementById('quiz-container').innerHTML = html;
+            quizContainer.innerHTML = html;
             
             if (question.type === 'category_drag_drop') {
                 setupDragAndDrop();
@@ -253,15 +251,16 @@
         }
 
         document.getElementById('submit-btn').addEventListener('click', () => {
-            console.log("Submit button clicked");
+            if (!questions || currentQuestionIndex >= questions.length) {
+                console.error('유효하지 않은 문제 상태');
+                return;
+            }
+
             if (checkAnswer()) {
-                console.log("Correct answer");
                 score++;
-            } else {
-                console.log("Incorrect answer");
             }
             currentQuestionIndex++;
-            console.log("Moving to next question:", currentQuestionIndex);
+
             if (currentQuestionIndex < questions.length) {
                 displayQuestion();
             } else {
