@@ -49,20 +49,19 @@
     <h1>Quiz App</h1>
     <div id="quiz-container"></div>
     <button id="submit-btn" style="display: none;">Submit</button>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
-        let currentQuestionIndex = 0;
         let questions = [];
         let score = 0;
 
         async function loadQuestions() {
             try {
-                const response = await axios.get('/api/questions');
-                questions = response.data;
-                // 질문 순서를 랜덤하게 섞습니다
-                questions = questions.sort(() => Math.random() - 0.5);
-                console.log('Loaded questions:', questions); // 디버깅을 위해 추가
+                const response = await fetch('questions.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                questions = data;
+                console.log('Loaded questions:', questions); // 디버깅용
                 if (questions.length > 0) {
                     displayQuestion();
                 } else {
@@ -70,16 +69,16 @@
                 }
             } catch (error) {
                 console.error('Error loading questions:', error);
-                showError("Failed to load questions. Please try again later.");
+                showError("Failed to load questions. Please try again later. Error: " + error.message);
             }
         }
 
-        function displayQuestion() {
+        async function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             const submitBtn = document.getElementById('submit-btn');
             
-            if (currentQuestionIndex < questions.length) {
-                const question = questions[currentQuestionIndex];
+            if (questions.length > 0) {
+                const question = questions[0];
                 console.log('Current question:', question); // 디버깅용
                 let html = `<div class="question">
                     <h3>${question.question}</h3>`;
@@ -89,10 +88,10 @@
                     question.options.forEach((option, index) => {
                         html += `<div>
                             <input type="${inputType}" 
-                                   name="q${currentQuestionIndex}" 
+                                   name="q${0}" 
                                    value="${option}" 
-                                   id="q${currentQuestionIndex}o${index}">
-                            <label for="q${currentQuestionIndex}o${index}">${option}</label>
+                                   id="q${0}o${index}">
+                            <label for="q${0}o${index}">${option}</label>
                         </div>`;
                     });
                 } else if (question.type === 'drag_and_drop') {
@@ -116,8 +115,8 @@
                         question.column_headers.forEach((_, colIndex) => {
                             html += `<td>
                                 <input type="checkbox" 
-                                       name="q${currentQuestionIndex}r${rowIndex}c${colIndex}" 
-                                       id="q${currentQuestionIndex}r${rowIndex}c${colIndex}">
+                                       name="q${0}r${rowIndex}c${colIndex}" 
+                                       id="q${0}r${rowIndex}c${colIndex}">
                             </td>`;
                         });
                         html += '</tr>';
@@ -194,11 +193,11 @@
         }
 
         function checkAnswer() {
-            const question = questions[currentQuestionIndex];
+            const question = questions[0];
             let isCorrect = false;
 
             if (!question.type || question.type === 'single_choice' || question.type === 'multiple_choice') {
-                const selectedOptions = Array.from(document.querySelectorAll(`input[name="q${currentQuestionIndex}"]:checked`))
+                const selectedOptions = Array.from(document.querySelectorAll(`input[name="q${0}"]:checked`))
                                              .map(input => input.value);
                 if (Array.isArray(question.answer)) {
                     isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(question.answer.sort());
@@ -217,7 +216,7 @@
                 for (let col in question.correct_answers) {
                     const correctAnswers = question.correct_answers[col];
                     const userAnswers = question.row_headers.filter((_, rowIndex) => 
-                        document.getElementById(`q${currentQuestionIndex}r${rowIndex}c${question.column_headers.indexOf(col)}`).checked
+                        document.getElementById(`q${0}r${rowIndex}c${question.column_headers.indexOf(col)}`).checked
                     );
                     if (JSON.stringify(correctAnswers.sort()) !== JSON.stringify(userAnswers.sort())) {
                         isCorrect = false;
@@ -247,8 +246,8 @@
 
         document.getElementById('submit-btn').addEventListener('click', () => {
             if (checkAnswer()) {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questions.length) {
+                questions.shift();
+                if (questions.length > 0) {
                     displayQuestion();
                 } else {
                     showFinalScore();
