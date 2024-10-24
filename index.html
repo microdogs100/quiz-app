@@ -69,9 +69,10 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 questions = await response.json();
-                console.log('Loaded questions:', questions); // 디버깅용
+                shuffleArray(questions); // 문제 순서 섞기
+                console.log('Loaded questions:', questions);
                 if (questions.length > 0) {
-                    currentQuestionIndex = 0; // 여기서 초기화
+                    currentQuestionIndex = 0;
                     displayQuestion();
                 } else {
                     showError("No questions loaded. Please check your questions.json file.");
@@ -122,7 +123,9 @@
                 html += '</table>';
             } else {
                 const inputType = (question.type === 'multiple_choice' || Array.isArray(question.answer)) ? 'checkbox' : 'radio';
-                question.options.forEach((option, index) => {
+                let options = [...question.options];
+                shuffleArray(options); // 보기 순서 섞기
+                options.forEach((option, index) => {
                     html += `<div>
                         <input type="${inputType}" 
                                name="q${currentQuestionIndex}" 
@@ -138,6 +141,9 @@
             if (question.type === 'category_drag_drop') {
                 setupDragAndDrop();
             }
+
+            // Submit 버튼 표시
+            document.getElementById('submit-btn').style.display = 'block';
         }
 
         function setupDragAndDrop() {
@@ -215,12 +221,13 @@
 
         document.getElementById('submit-btn').addEventListener('click', () => {
             if (checkAnswer()) {
-                questions.shift();
-                if (questions.length > 0) {
-                    displayQuestion();
-                } else {
-                    showFinalScore();
-                }
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                showFinalScore();
             }
         });
 
