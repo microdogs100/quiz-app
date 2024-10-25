@@ -216,7 +216,7 @@
             submitBtn.style.display = 'block';
             submitBtn.disabled = false;  // 버튼 활성화
 
-            // 전 피 제거
+            //  피 제거
             const feedbackElement = document.getElementById('feedback');
             if (feedbackElement) {
                 feedbackElement.remove();
@@ -382,19 +382,18 @@
 
             let isCorrect = true;
             question.column_headers.forEach((colHeader, colIndex) => {
-                const correctAnswers = question.correct_answers[colHeader];
-                if (!Array.isArray(correctAnswers)) {
-                    console.error(`${colHeader}에 대한 올바른 답변이 배열이 아닙니다.`);
-                    isCorrect = false;
-                    return;
-                }
                 question.row_headers.forEach((rowHeader, rowIndex) => {
                     const checkbox = document.querySelector(`input[name="grid-${rowIndex}-${colIndex}"]`);
-                    if (checkbox && checkbox.checked !== correctAnswers.includes(rowHeader)) {
+                    const isChecked = checkbox && checkbox.checked;
+                    const shouldBeChecked = question.correct_answers[colHeader].includes(rowHeader);
+                    
+                    if (isChecked !== shouldBeChecked) {
                         isCorrect = false;
                     }
                 });
             });
+
+            console.log('Grid Multiple Items - Is correct:', isCorrect);
             return isCorrect;
         }
 
