@@ -177,14 +177,15 @@
         function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             if (!questions || questions.length === 0 || currentQuestionIndex >= questions.length) {
-                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패니.</p>';
+                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패했습니다.</p>';
                 return;
             }
 
-            let question = {...questions[currentQuestionIndex]};  // 원본 문제 객체를 복사
-            question = shuffleOptions(question);  // 보기 섞기
+            const question = questions[currentQuestionIndex];
+            shuffleOptions(question);  // 여기에 추가
 
-            let html = `<h2>${question.question}</h2>`;
+            let html = `<h2>문제 ${currentQuestionIndex + 1}</h2>
+                        <p>${question.question}</p>`;
 
             if (question.type === 'category_drag_drop') {
                 html += createCategoryDragDropHtml(question);
@@ -400,7 +401,10 @@
 
         function checkMultipleChoice(question) {
             const selectedOptions = Array.from(document.querySelectorAll('input[name="quiz"]:checked'))
-                .map(input => question.originalIndices[parseInt(input.value)]);
+                .map(input => {
+                    const index = parseInt(input.value);
+                    return question.originalIndices ? question.originalIndices[index] : index;
+                });
 
             console.log('Question:', question);
             console.log('Selected options:', selectedOptions);
@@ -411,10 +415,15 @@
             if (Array.isArray(question.answer)) {
                 // 여러 개의 정답이 있는 경우
                 isCorrect = selectedOptions.length === question.answer.length &&
-                       question.answer.every(answer => selectedOptions.includes(answer));
+                       question.answer.every(answer => selectedOptions.includes(
+                           question.originalIndices ? question.originalIndices.indexOf(answer) : answer
+                       ));
             } else {
                 // 단일 정답인 경우
-                isCorrect = selectedOptions.length === 1 && selectedOptions[0] === question.answer;
+                isCorrect = selectedOptions.length === 1 && 
+                            (question.originalIndices ? 
+                                question.originalIndices[selectedOptions[0]] === question.answer :
+                                selectedOptions[0] === question.answer);
             }
 
             console.log('Is correct:', isCorrect);
