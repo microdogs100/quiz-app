@@ -116,21 +116,23 @@
 
         // 문제를 섞는 함수
         function shuffleQuestions() {
-            questions = shuffleArray(questions);
+            questions = shuffleArray([...questions]);
         }
 
         // 보기를 섞는 함수
         function shuffleOptions(question) {
-            if (question.options) {
+            if (question.options && Array.isArray(question.options)) {
                 const shuffledOptions = shuffleArray([...question.options]);
-                // 정답의 인덱스를 업데이트
+                
+                // 정답 업데이트
                 if (Array.isArray(question.answer)) {
                     question.answer = question.answer.map(ans => 
                         shuffledOptions[question.options.indexOf(ans)]
                     );
-                } else if (typeof question.answer === 'string') {
+                } else if (typeof question.answer === 'string' || typeof question.answer === 'number') {
                     question.answer = shuffledOptions[question.options.indexOf(question.answer)];
                 }
+                
                 question.options = shuffledOptions;
             }
             return question;
@@ -144,7 +146,7 @@
                 }
                 questions = await response.json();
                 if (!Array.isArray(questions) || questions.length === 0) {
-                    throw new Error('문제 데이터가 올바르지 않습니다.');
+                    throw new Error('문제 데이가 올바르지 않습니다.');
                 }
                 displayQuestion();
             } catch (error) {
@@ -160,7 +162,9 @@
                 return;
             }
 
-            const question = questions[currentQuestionIndex];
+            let question = {...questions[currentQuestionIndex]};  // 원본 문제 객체를 복사
+            question = shuffleOptions(question);  // 보기 섞기
+
             let html = `<h2>${question.question}</h2>`;
 
             if (question.type === 'category_drag_drop') {
@@ -169,8 +173,10 @@
                 html += createDragDropHtml(question);
             } else if (question.type === 'grid_multiple_items') {
                 html += createGridMultipleItemsHtml(question);
-            } else {
+            } else if (question.type === 'multiple_choice' || !question.type) {
                 html += createMultipleChoiceHtml(question);
+            } else {
+                html += '<p>지원되지 않는 문제 유형입니다.</p>';
             }
 
             quizContainer.innerHTML = html;
@@ -295,9 +301,17 @@
         }
 
         function checkSingleMultipleChoice(question) {
-            const selectedOption = document.querySelector('input[name="quiz"]:checked');
-            if (!selectedOption) return false;
-            return question.answer.includes(question.options[selectedOption.value]);
+            const selectedOptions = Array.from(document.querySelectorAll('input[name="quiz"]:checked'))
+                .map(input => question.options[input.value]);
+
+            if (Array.isArray(question.answer)) {
+                // 여러 개의 정답이 있는 경우
+                return selectedOptions.length === question.answer.length &&
+                       selectedOptions.every(option => question.answer.includes(option));
+            } else {
+                // 단일 정답인 경우
+                return selectedOptions.length === 1 && selectedOptions[0] === question.answer;
+            }
         }
 
         document.getElementById('submit-btn').addEventListener('click', () => {
@@ -396,9 +410,10 @@
         function createMultipleChoiceHtml(question) {
             let html = '';
             if (Array.isArray(question.options)) {
+                const inputType = Array.isArray(question.answer) && question.answer.length > 1 ? 'checkbox' : 'radio';
                 question.options.forEach((option, index) => {
                     html += `<label>
-                        <input type="radio" name="quiz" value="${index}">
+                        <input type="${inputType}" name="quiz" value="${index}">
                         ${option}
                     </label><br>`;
                 });
