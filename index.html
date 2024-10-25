@@ -185,7 +185,7 @@
         function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             if (!questions || questions.length === 0 || currentQuestionIndex >= questions.length) {
-                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패니다.</p>';
+                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패니.</p>';
                 return;
             }
 
@@ -230,30 +230,30 @@
             }
         }
 
-        function setupDragAndDrop(type) {
-            const optionsContainer = document.getElementById('options');
-            const items = optionsContainer.querySelectorAll('.draggable');
-            
-            items.forEach(item => {
-                item.addEventListener('dragstart', dragStart);
-                item.addEventListener('dragend', dragEnd);
+        function setupDragAndDrop(questionType) {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.droppable');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', dragStart);
+                draggable.addEventListener('dragend', dragEnd);
             });
 
-            if (type === 'category_drag_drop') {
-                const categories = document.querySelectorAll('.category-items');
-                categories.forEach(category => {
-                    category.addEventListener('dragover', dragOver);
-                    category.addEventListener('dragenter', dragEnter);
-                    category.addEventListener('dragleave', dragLeave);
-                    category.addEventListener('drop', drop);
-                });
-            } else if (type === 'drag_drop') {
-                const dropZones = document.querySelectorAll('.drop-zone');
-                dropZones.forEach(zone => {
-                    zone.addEventListener('dragover', dragOver);
-                    zone.addEventListener('dragenter', dragEnter);
-                    zone.addEventListener('dragleave', dragLeave);
-                    zone.addEventListener('drop', drop);
+            dropZones.forEach(dropZone => {
+                dropZone.addEventListener('dragover', dragOver);
+                dropZone.addEventListener('dragenter', dragEnter);
+                dropZone.addEventListener('dragleave', dragLeave);
+                dropZone.addEventListener('drop', drop);
+            });
+
+            if (questionType === 'category_drag_drop') {
+                const optionsContainer = document.getElementById('options');
+                optionsContainer.addEventListener('dragover', dragOver);
+                optionsContainer.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggable = document.getElementById(id);
+                    optionsContainer.appendChild(draggable);
                 });
             }
         }
@@ -347,7 +347,7 @@
                                            .map(item => item.textContent.trim());
                 const correctAnswers = question.correct_answers[category];
                 if (!Array.isArray(correctAnswers)) {
-                    console.error(`${category}에 대한 올바른 답변이 배열이 아닙다.`);
+                    console.error(`${category}에 대한 올바른 답변이 배열이 아닙니다.`);
                     isCorrect = false;
                     return;
                 }
@@ -450,8 +450,8 @@
 
         function createCategoryDragDropHtml(question) {
             let html = '<div id="options" class="draggable-container">';
-            question.options.forEach(option => {
-                html += `<div class="draggable" draggable="true">${option}</div>`;
+            question.options.forEach((option, index) => {
+                html += `<div id="draggable-${index}" class="draggable" draggable="true">${option}</div>`;
             });
             html += '</div><div id="categories-container">';
             question.categories.forEach((category, index) => {
@@ -541,14 +541,15 @@
         }
 
         function drop(e) {
+            e.preventDefault();
             e.target.classList.remove('drag-over');
 
             const id = e.dataTransfer.getData('text/plain');
             const draggable = document.getElementById(id);
 
-            e.target.appendChild(draggable);
-
-            draggable.classList.remove('hide');
+            if (draggable && e.target.classList.contains('droppable')) {
+                e.target.appendChild(draggable);
+            }
         }
 
         document.getElementById('start-quiz').addEventListener('click', startQuiz);
