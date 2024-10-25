@@ -102,7 +102,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
         let currentQuestionIndex = 0;
-        let questions = [];
+        let questions = []; // 전역 변수로 선언
         let score = 0;
 
         // 배열을 무작위로 섞는 함수
@@ -117,6 +117,7 @@
         // 문제를 섞는 함수
         function shuffleQuestions() {
             questions = shuffleArray([...questions]);
+            console.log('Questions shuffled:', questions); // 디버깅을 위한 로그
         }
 
         // 보기를 섞는 함수
@@ -141,17 +142,11 @@
         async function loadQuestions() {
             try {
                 const response = await fetch('questions.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
                 questions = await response.json();
-                if (!Array.isArray(questions) || questions.length === 0) {
-                    throw new Error('문제 데이가 올바르지 않습니다.');
-                }
-                displayQuestion();
+                console.log('Questions loaded:', questions); // 디버깅을 위한 로그
+                startQuiz(); // 문제 로드 후 퀴��� 시작
             } catch (error) {
-                console.error('문제를 불러오는 데 실패했습니다:', error);
-                document.getElementById('quiz-container').innerHTML = '<p>문제를 불러오는 데 실패했습니다.</p>';
+                console.error('Error loading questions:', error);
             }
         }
 
@@ -316,7 +311,7 @@
 
         document.getElementById('submit-btn').addEventListener('click', () => {
             if (!questions || currentQuestionIndex >= questions.length) {
-                console.error('유효하지 않은 문제 상태');
+                console.error('유효하지 않은 문 상태');
                 return;
             }
 
@@ -347,10 +342,11 @@
         }
 
         // 페이지 로드 시 질문을 불러옵니다
-        window.onload = loadQuestions;
+        window.addEventListener('load', loadQuestions);
 
         // 퀴즈 시작 시 문제 섞기
         function startQuiz() {
+            console.log('Starting quiz...'); // 디버깅을 위한 로그
             shuffleQuestions();
             currentQuestionIndex = 0;
             score = 0;
@@ -455,6 +451,8 @@
 
             draggable.classList.remove('hide');
         }
+
+        document.getElementById('start-quiz').addEventListener('click', startQuiz);
     </script>
 </body>
 </html>
