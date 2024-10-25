@@ -85,10 +85,12 @@
             width: 150px;
             height: 50px;
             border: 2px dashed #ccc;
-            margin: 10px 0;
             padding: 10px;
-            display: inline-block;
-            vertical-align: top;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
         }
         .drag-over {
             border-color: #000;
@@ -100,6 +102,23 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            margin-top: 20px;
+        }
+        #feedback {
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        #feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -223,6 +242,7 @@
         function checkAnswer() {
             const question = questions[currentQuestionIndex];
             let isCorrect = false;
+            let feedback = '';
 
             try {
                 if (question.type === 'category_drag_drop') {
@@ -234,12 +254,51 @@
                 } else {
                     isCorrect = checkSingleMultipleChoice(question);
                 }
+
+                if (isCorrect) {
+                    feedback = "정답입니다!";
+                } else {
+                    feedback = "오답입니다. 정답은: " + getCorrectAnswerString(question);
+                }
+
+                displayFeedback(feedback);
             } catch (error) {
                 console.error(`Error checking answer for question ${currentQuestionIndex}:`, error);
                 console.error('Question data:', JSON.stringify(question, null, 2));
             }
 
             return isCorrect;
+        }
+
+        function getCorrectAnswerString(question) {
+            if (question.type === 'category_drag_drop') {
+                return Object.entries(question.correct_answers)
+                    .map(([category, answers]) => `${category}: ${answers.join(', ')}`)
+                    .join(' | ');
+            } else if (question.type === 'drag_drop' || Array.isArray(question.answers)) {
+                return question.answers.join(', ');
+            } else if (question.type === 'grid_multiple_items') {
+                return Object.entries(question.correct_answers)
+                    .map(([header, answers]) => `${header}: ${answers.join(', ')}`)
+                    .join(' | ');
+            } else {
+                return Array.isArray(question.answer) ? question.answer.join(', ') : question.answer;
+            }
+        }
+
+        function displayFeedback(feedback) {
+            const feedbackElement = document.getElementById('feedback') || createFeedbackElement();
+            feedbackElement.textContent = feedback;
+            feedbackElement.style.display = 'block';
+        }
+
+        function createFeedbackElement() {
+            const feedbackElement = document.createElement('div');
+            feedbackElement.id = 'feedback';
+            feedbackElement.style.marginTop = '20px';
+            feedbackElement.style.fontWeight = 'bold';
+            document.getElementById('quiz-container').appendChild(feedbackElement);
+            return feedbackElement;
         }
 
         function checkCategoryDragDrop(question) {
@@ -272,10 +331,10 @@
                 return draggable ? draggable.textContent : null;
             }).filter(answer => answer !== null);
 
-            if (Array.isArray(question.answer)) {
-                return JSON.stringify(userAnswer) === JSON.stringify(question.answer);
+            if (Array.isArray(question.answers)) {
+                return JSON.stringify(userAnswer) === JSON.stringify(question.answers);
             } else {
-                return userAnswer.length === 1 && userAnswer[0] === question.answer;
+                return userAnswer.length === 1 && userAnswer[0] === question.answers;
             }
         }
 
@@ -385,12 +444,16 @@
             });
             html += '</div><div id="answer-container">';
             
-            // answer의 길이만큼 드롭 영역 생성
-            const answerCount = Array.isArray(question.answer) ? question.answer.length : 1;
+            // answers의 길이 확인
+            const answerCount = Array.isArray(question.answers) ? question.answers.length : 1;
+            
+            // 드롭 영역 생성
             for (let i = 0; i < answerCount; i++) {
                 html += `<div class="drop-zone" data-index="${i}"></div>`;
             }
             html += '</div>';
+            
+            console.log(`Created ${answerCount} drop zones for question:`, question); // 디버깅용
             return html;
         }
 
