@@ -376,7 +376,7 @@
     "AS-Override feature on the CE routers", 
     "prefix list filtering for Branch#3 originated routes outbound on the CE routers to the PE routers" ,
     "Local-AS feature on the CE routers",
-    "prefix list filtering for Branch#3 originated routes inbound on the CE routers to the PE routers" ],
+    "prefix list filtering for Branch#3 originated routes inbound on the PE routers from the CE routers" ],
     "answer": ["prefix list filtering for Branch#3 originated routes inbound on the CE routers from the PE routers", 
     "AllowAS-In feature on the CE routers"]
   },
