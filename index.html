@@ -216,7 +216,7 @@
             submitBtn.style.display = 'block';
             submitBtn.disabled = false;  // 버튼 활성화
 
-            // 전 피백 제거
+            // 전 피 제거
             const feedbackElement = document.getElementById('feedback');
             if (feedbackElement) {
                 feedbackElement.remove();
@@ -263,6 +263,7 @@
             let feedback = '';
 
             try {
+                console.log('Checking answer for question:', currentQuestionIndex);
                 console.log('Question type:', question.type);
                 console.log('Question:', question);
 
@@ -273,7 +274,6 @@
                 } else if (question.type === 'grid_multiple_items') {
                     isCorrect = checkGridMultipleItems(question);
                 } else {
-                    // 단일 선택, 다중 선택, 또는 유형이 지정되지 않은 경우
                     isCorrect = checkMultipleChoice(question);
                 }
 
@@ -282,15 +282,12 @@
                 feedback = isCorrect ? "정답입니다!" : "오답입니다. 정답은: " + getCorrectAnswerString(question);
                 displayFeedback(feedback, isCorrect);
 
-                // 점수 업데이트
                 if (isCorrect) {
                     score++;
                 }
-                
-                // Submit 버튼 숨기기
+                console.log('Current score:', score);
+
                 document.getElementById('submit-btn').style.display = 'none';
-                
-                // 다음 문제로 이동하는 버튼 표시
                 showNextButton();
 
             } catch (error) {
@@ -405,21 +402,23 @@
             const selectedOptions = Array.from(document.querySelectorAll('input[name="quiz"]:checked'))
                 .map(input => question.options[parseInt(input.value)]);
 
+            console.log('Question:', question);
             console.log('Selected options:', selectedOptions);
             console.log('Correct answer:', question.answer);
 
+            let isCorrect = false;
+
             if (Array.isArray(question.answer)) {
                 // 여러 개의 정답이 있는 경우
-                const isCorrect = selectedOptions.length === question.answer.length &&
-                       selectedOptions.every(option => question.answer.includes(option));
-                console.log('Is correct (multiple answers):', isCorrect);
-                return isCorrect;
+                isCorrect = selectedOptions.length === question.answer.length &&
+                       question.answer.every(answer => selectedOptions.includes(answer));
             } else {
                 // 단일 정답인 경우
-                const isCorrect = selectedOptions.length === 1 && selectedOptions[0] === question.answer;
-                console.log('Is correct (single answer):', isCorrect);
-                return isCorrect;
+                isCorrect = selectedOptions.length === 1 && selectedOptions[0] === question.answer;
             }
+
+            console.log('Is correct:', isCorrect);
+            return isCorrect;
         }
 
         function showFinalScore() {
