@@ -1019,6 +1019,8 @@
       "Multicast"
     ],
     "correct_answers": {
+      "IP directed broadcast": [
+      ],
       "Layer2 flooding": [
         "VLAN where the application resides"
       ],
@@ -1065,6 +1067,8 @@
       "R62"
     ],
     "correct_answers": {
+      "R24": [
+      ],
       "R70": [
         "Stop Sending 10.7.0.0/16 routes into BGP",      
         "Only send nhrp NBMA DMVPN address into BGP"
@@ -1136,7 +1140,6 @@
       "R62"
     ],
     "correct_answers": {
-
       "R6": [
         "LDP",
         "Route target export",
