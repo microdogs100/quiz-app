@@ -184,7 +184,7 @@
         function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             if (!questions || questions.length === 0 || currentQuestionIndex >= questions.length) {
-                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패했습니다.</p>';
+                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패습니다.</p>';
                 return;
             }
 
@@ -261,6 +261,22 @@
 
                 feedback = isCorrect ? "정답입니다!" : "오답입니다. 정답은: " + getCorrectAnswerString(question);
                 displayFeedback(feedback, isCorrect);
+
+                // 점수 업데이트 및 다음 문제로 이동
+                if (isCorrect) {
+                    score++;
+                }
+                currentQuestionIndex++;
+
+                if (currentQuestionIndex < questions.length) {
+                    setTimeout(() => {
+                        displayQuestion();
+                    }, 2000); // 2초 후 다음 문제로 이동
+                } else {
+                    setTimeout(() => {
+                        showFinalScore();
+                    }, 2000); // 2초 후 최종 점수 표시
+                }
             } catch (error) {
                 console.error(`Error checking answer for question ${currentQuestionIndex}:`, error);
                 console.error('Question data:', JSON.stringify(question, null, 2));
@@ -424,6 +440,7 @@
             currentQuestionIndex = 0;
             score = 0;
             displayQuestion();
+            setupEventListeners(); // 여기에 추가
         }
 
         function createCategoryDragDropHtml(question) {
@@ -532,7 +549,7 @@
         document.getElementById('start-quiz').addEventListener('click', startQuiz);
 
         function setupEventListeners() {
-            const submitButton = document.getElementById('submit');
+            const submitButton = document.getElementById('submit-btn');
             if (submitButton) {
                 submitButton.addEventListener('click', function() {
                     const isCorrect = checkAnswer();
