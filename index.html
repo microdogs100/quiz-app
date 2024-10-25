@@ -154,19 +154,11 @@
         // 보기를 섞는 함수
         function shuffleOptions(question) {
             if (question.options && Array.isArray(question.options)) {
-                const originalOptions = [...question.options];
-                const shuffledOptions = shuffleArray([...question.options]);
+                const originalOptions = question.options.map((option, index) => ({ option, index }));
+                const shuffledOptions = shuffleArray([...originalOptions]);
                 
-                // 정답 업데이트
-                if (Array.isArray(question.answer)) {
-                    question.answer = question.answer.map(ans => 
-                        shuffledOptions[originalOptions.indexOf(ans)]
-                    );
-                } else if (typeof question.answer === 'string') {
-                    question.answer = shuffledOptions[originalOptions.indexOf(question.answer)];
-                }
-                
-                question.options = shuffledOptions;
+                question.options = shuffledOptions.map(item => item.option);
+                question.originalIndices = shuffledOptions.map(item => item.index);
             }
             return question;
         }
@@ -223,7 +215,7 @@
                 feedbackElement.remove();
             }
 
-            // 이전에 추가된 '다음 문제' �� 제거
+            // 이전에 추가된 '다음 문제'  제거
             const nextButton = document.getElementById('next-btn');
             if (nextButton) {
                 nextButton.remove();
@@ -232,7 +224,7 @@
 
         function setupDragAndDrop(questionType) {
             const draggables = document.querySelectorAll('.draggable');
-            const dropZones = document.querySelectorAll('.droppable');
+            const dropZones = document.querySelectorAll('.drop-zone, .droppable');
 
             draggables.forEach(draggable => {
                 draggable.addEventListener('dragstart', dragStart);
@@ -246,14 +238,16 @@
                 dropZone.addEventListener('drop', drop);
             });
 
-            if (questionType === 'category_drag_drop') {
-                const optionsContainer = document.getElementById('options');
-                optionsContainer.addEventListener('dragover', dragOver);
-                optionsContainer.addEventListener('drop', (e) => {
+            if (questionType === 'drag_drop') {
+                const answerContainer = document.getElementById('answer-container');
+                answerContainer.addEventListener('dragover', dragOver);
+                answerContainer.addEventListener('drop', (e) => {
                     e.preventDefault();
                     const id = e.dataTransfer.getData('text/plain');
                     const draggable = document.getElementById(id);
-                    optionsContainer.appendChild(draggable);
+                    if (draggable && e.target.classList.contains('drop-zone') && e.target.children.length === 0) {
+                        e.target.appendChild(draggable);
+                    }
                 });
             }
         }
@@ -406,7 +400,7 @@
 
         function checkMultipleChoice(question) {
             const selectedOptions = Array.from(document.querySelectorAll('input[name="quiz"]:checked'))
-                .map(input => question.options[parseInt(input.value)]);
+                .map(input => question.originalIndices[parseInt(input.value)]);
 
             console.log('Question:', question);
             console.log('Selected options:', selectedOptions);
