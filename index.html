@@ -86,12 +86,20 @@
             height: 50px;
             border: 2px dashed #ccc;
             margin: 10px 0;
+            padding: 10px;
+            display: inline-block;
+            vertical-align: top;
         }
         .drag-over {
             border-color: #000;
         }
         .hide {
             display: none;
+        }
+        #answer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
     </style>
 </head>
@@ -144,7 +152,7 @@
                 const response = await fetch('questions.json');
                 questions = await response.json();
                 console.log('Questions loaded:', questions); // 디버깅을 위한 로그
-                startQuiz(); // 문제 로드 후 퀴��� 시작
+                startQuiz(); // 문제 로드 후 퀴 시작
             } catch (error) {
                 console.error('Error loading questions:', error);
             }
@@ -377,7 +385,7 @@
             });
             html += '</div><div id="answer-container">';
             
-            // answers 배열의 길이만큼 드롭 영역 생성
+            // answer의 길이만큼 드롭 영역 생성
             const answerCount = Array.isArray(question.answer) ? question.answer.length : 1;
             for (let i = 0; i < answerCount; i++) {
                 html += `<div class="drop-zone" data-index="${i}"></div>`;
