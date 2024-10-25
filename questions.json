@@ -409,10 +409,10 @@
     "aggregate-only flag disabled" ,
     "aggregate-only flag enabled",
     "summary-only flag disabled",
-    "OMP route aggregation feature on VPNs for 10.4.0.0/16",
+    "OMP route aggregation feature on VPN1 for 10.4.0.0/16 and 10.5.0.0/16",
     "BGP route aggregation feature on all the virtual networks for 10.4.0.0/16 and 10.5.0.0/16" ],
     "answer": ["aggregate-only flag enabled", 
-    "OMP route aggregation feature on VPNs for 10.4.0.0/16"]
+    "OMP route aggregation feature on VPN1 for 10.4.0.0/16 and 10.5.0.0/16"]
   },
   {
     "question": "Based on the information provided by Peter Jones, which two recommendations meet the design requirement for scaling?(choose four)",
@@ -423,7 +423,7 @@
     "aggregate-only flag enabled",
     "summary-only flag disabled",
     "OMP route aggregation feature on VPNs for 10.4.0.0/16",
-    "BGP route aggregation feature on all the virtual networks for 10.4.0.0/16 and 10.5.0.0/16" ],
+    "BGP route aggregation feature on all the virtual networks for 10.4.0.0/16" ],
     "answer": ["aggregate-only flag enabled", "BGP route aggregation feature on the corporate virtual network for 10.5.0.0/16",
     "OMP route aggregation feature on VPNs for 10.4.0.0/16", "summary-only flag enabled"]
   },
