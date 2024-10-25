@@ -105,11 +105,14 @@
             margin-top: 20px;
         }
         #feedback {
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             font-weight: bold;
             margin-top: 20px;
-            display: none;
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         #feedback.correct {
             background-color: #d4edda;
@@ -283,18 +286,24 @@
         }
 
         function displayFeedback(feedback, isCorrect) {
-            const feedbackElement = document.getElementById('feedback') || createFeedbackElement();
+            let feedbackElement = document.getElementById('feedback');
+            if (!feedbackElement) {
+                feedbackElement = createFeedbackElement();
+            }
             feedbackElement.textContent = feedback;
             feedbackElement.className = isCorrect ? 'correct' : 'incorrect';
             feedbackElement.style.display = 'block';
-            console.log('Displaying feedback:', feedback); // 디버깅용
+            console.log('Displaying feedback:', feedback);
+
+            // 피드백 요소가 보이도록 스크롤
+            feedbackElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         function createFeedbackElement() {
             const feedbackElement = document.createElement('div');
             feedbackElement.id = 'feedback';
             document.getElementById('quiz-container').appendChild(feedbackElement);
-            console.log('Feedback element created'); // 디버깅용
+            console.log('Feedback element created');
             return feedbackElement;
         }
 
@@ -521,6 +530,21 @@
         }
 
         document.getElementById('start-quiz').addEventListener('click', startQuiz);
+
+        function setupEventListeners() {
+            const submitButton = document.getElementById('submit');
+            if (submitButton) {
+                submitButton.addEventListener('click', function() {
+                    const isCorrect = checkAnswer();
+                    console.log('Answer checked, isCorrect:', isCorrect);
+                });
+            } else {
+                console.error("Submit button not found");
+            }
+        }
+
+        // 문서가 로드된 후 이벤트 리스너를 설정합니다.
+        document.addEventListener('DOMContentLoaded', setupEventListeners);
     </script>
 </body>
 </html>
