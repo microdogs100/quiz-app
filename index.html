@@ -216,7 +216,7 @@
             submitBtn.style.display = 'block';
             submitBtn.disabled = false;  // 버튼 활성화
 
-            // 전 피���백 제거
+            // 전 피백 제거
             const feedbackElement = document.getElementById('feedback');
             if (feedbackElement) {
                 feedbackElement.remove();
@@ -263,6 +263,9 @@
             let feedback = '';
 
             try {
+                console.log('Question type:', question.type);
+                console.log('Question:', question);
+
                 if (question.type === 'category_drag_drop') {
                     isCorrect = checkCategoryDragDrop(question);
                 } else if (question.type === 'drag_drop') {
@@ -270,11 +273,10 @@
                 } else if (question.type === 'grid_multiple_items') {
                     isCorrect = checkGridMultipleItems(question);
                 } else {
-                    isCorrect = checkSingleMultipleChoice(question);
+                    // 단일 선택, 다중 선택, 또는 유형이 지정되지 않은 경우
+                    isCorrect = checkMultipleChoice(question);
                 }
 
-                console.log('Question type:', question.type);
-                console.log('Question:', question);
                 console.log('Is correct:', isCorrect);
 
                 feedback = isCorrect ? "정답입니다!" : "오답입니다. 정답은: " + getCorrectAnswerString(question);
@@ -399,7 +401,7 @@
             return isCorrect;
         }
 
-        function checkSingleMultipleChoice(question) {
+        function checkMultipleChoice(question) {
             const selectedOptions = Array.from(document.querySelectorAll('input[name="quiz"]:checked'))
                 .map(input => question.options[parseInt(input.value)]);
 
@@ -418,7 +420,7 @@
                 console.log('Is correct (single answer):', isCorrect);
                 return isCorrect;
             }
-        }       
+        }
 
         function showFinalScore() {
             const quizContainer = document.getElementById('quiz-container');
