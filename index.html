@@ -156,7 +156,7 @@
             if (question.options && Array.isArray(question.options)) {
                 const shuffledOptions = shuffleArray([...question.options]);
                 
-                // 정답 업데이트
+                // 정��� 업데이트
                 if (Array.isArray(question.answer)) {
                     question.answer = question.answer.map(ans => 
                         shuffledOptions[question.options.indexOf(ans)]
@@ -184,7 +184,7 @@
         function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             if (!questions || questions.length === 0 || currentQuestionIndex >= questions.length) {
-                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패습니다.</p>';
+                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패니다.</p>';
                 return;
             }
 
@@ -216,7 +216,7 @@
             submitBtn.style.display = 'block';
             submitBtn.disabled = false;  // 버튼 활성화
 
-            // 이전 피드백 제거
+            // 전 피드백 제거
             const feedbackElement = document.getElementById('feedback');
             if (feedbackElement) {
                 feedbackElement.remove();
@@ -400,7 +400,7 @@
 
         function checkSingleMultipleChoice(question) {
             const selectedOptions = Array.from(document.querySelectorAll('input[name="quiz"]:checked'))
-                .map(input => question.options[input.value]);
+                .map(input => question.options[parseInt(input.value)]);
 
             if (Array.isArray(question.answer)) {
                 // 여러 개의 정답이 있는 경우
