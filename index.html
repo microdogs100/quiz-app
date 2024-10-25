@@ -223,7 +223,7 @@
 
         function setupDragAndDrop(questionType) {
             const draggables = document.querySelectorAll('.draggable');
-            const dropZones = document.querySelectorAll('.drop-zone, .droppable');
+            const dropZones = document.querySelectorAll('.drop-zone, .droppable, .category-items');
 
             draggables.forEach(draggable => {
                 setupDragListeners(draggable);
@@ -238,8 +238,10 @@
 
             if (questionType === 'category_drag_drop') {
                 const categoriesContainer = document.getElementById('categories-container');
-                categoriesContainer.addEventListener('dragover', dragOver);
-                categoriesContainer.addEventListener('drop', drop);
+                if (categoriesContainer) {
+                    categoriesContainer.addEventListener('dragover', dragOver);
+                    categoriesContainer.addEventListener('drop', drop);
+                }
             }
         }
 
@@ -509,7 +511,7 @@
                     </label><br>`;
                 });
             } else {
-                html += '<p>이 문제에 대한 옵션이 없습니다.</p>';
+                html += '<p>이 문제에 대한 옵션 없습니다.</p>';
             }
             return html;
         }
@@ -544,10 +546,17 @@
             const draggable = document.getElementById(id);
 
             if (draggable) {
-                if (e.target.classList.contains('droppable')) {
+                let dropTarget = e.target;
+                
+                // 드롭 대상이 category-items가 아니라면 가장 가까운 category-items를 찾습니다.
+                if (!dropTarget.classList.contains('category-items')) {
+                    dropTarget = dropTarget.closest('.category-items');
+                }
+
+                if (dropTarget && dropTarget.classList.contains('category-items')) {
                     const clone = draggable.cloneNode(true);
                     clone.id = `${draggable.id}-clone-${Date.now()}`;
-                    e.target.appendChild(clone);
+                    dropTarget.appendChild(clone);
                     setupDragListeners(clone);
                 } else if (e.target.classList.contains('drop-zone')) {
                     if (e.target.children.length === 0) {
