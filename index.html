@@ -226,8 +226,7 @@
             const dropZones = document.querySelectorAll('.drop-zone, .droppable');
 
             draggables.forEach(draggable => {
-                draggable.addEventListener('dragstart', dragStart);
-                draggable.addEventListener('dragend', dragEnd);
+                setupDragListeners(draggable);
             });
 
             dropZones.forEach(dropZone => {
@@ -237,17 +236,10 @@
                 dropZone.addEventListener('drop', drop);
             });
 
-            if (questionType === 'drag_drop') {
-                const answerContainer = document.getElementById('answer-container');
-                answerContainer.addEventListener('dragover', dragOver);
-                answerContainer.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    const id = e.dataTransfer.getData('text/plain');
-                    const draggable = document.getElementById(id);
-                    if (draggable && e.target.classList.contains('drop-zone') && e.target.children.length === 0) {
-                        e.target.appendChild(draggable);
-                    }
-                });
+            if (questionType === 'category_drag_drop') {
+                const categoriesContainer = document.getElementById('categories-container');
+                categoriesContainer.addEventListener('dragover', dragOver);
+                categoriesContainer.addEventListener('drop', drop);
             }
         }
 
@@ -344,7 +336,9 @@
                     isCorrect = false;
                     return;
                 }
-                if (JSON.stringify(categoryItems.sort()) !== JSON.stringify(correctAnswers.sort())) {
+                // 정답과 사용자 답변의 길이가 같고, 모든 정답이 사용자 답변에 포함되어 있는지 확인
+                if (categoryItems.length !== correctAnswers.length || 
+                    !correctAnswers.every(answer => categoryItems.includes(answer))) {
                     isCorrect = false;
                 }
             });
@@ -551,8 +545,10 @@
 
             if (draggable) {
                 if (e.target.classList.contains('droppable')) {
-                    e.target.innerHTML = ''; // Clear existing content
-                    e.target.appendChild(draggable);
+                    const clone = draggable.cloneNode(true);
+                    clone.id = `${draggable.id}-clone-${Date.now()}`;
+                    e.target.appendChild(clone);
+                    setupDragListeners(clone);
                 } else if (e.target.classList.contains('drop-zone')) {
                     if (e.target.children.length === 0) {
                         e.target.appendChild(draggable);
@@ -589,6 +585,11 @@
             } else {
                 showFinalScore();
             }
+        }
+
+        function setupDragListeners(element) {
+            element.addEventListener('dragstart', dragStart);
+            element.addEventListener('dragend', dragEnd);
         }
     </script>
 </body>
