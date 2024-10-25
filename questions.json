@@ -422,10 +422,10 @@
     "aggregate-only flag disabled",
     "aggregate-only flag enabled",
     "summary-only flag disabled",
-    "OMP route aggregation feature on VPNI for 10.4.0.0/16 and 10.5.0.0/16",
+    "OMP route aggregation feature on VPNs for 10.4.0.0/16",
     "BGP route aggregation feature on all the virtual networks for 10.4.0.0/16 and 10.5.0.0/16" ],
     "answer": ["aggregate-only flag enabled", "BGP route aggregation feature on the corporate virtual network for 10.5.0.0/16",
-    "OMP route aggregation feature on VPNI for 10.4.0.0/16 and 10.5.0.0/16", "summary-only flag enabled"]
+    "OMP route aggregation feature on VPNs for 10.4.0.0/16", "summary-only flag enabled"]
   },
   {
     "question": "Which four actions must be taken to implement an EEM script on SW700 to mitigate the wireless bridge issue?(choose four)",
