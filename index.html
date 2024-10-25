@@ -154,15 +154,16 @@
         // 보기를 섞는 함수
         function shuffleOptions(question) {
             if (question.options && Array.isArray(question.options)) {
+                const originalOptions = [...question.options];
                 const shuffledOptions = shuffleArray([...question.options]);
                 
-                // 정 업데이트
+                // 정답 업데이트
                 if (Array.isArray(question.answer)) {
                     question.answer = question.answer.map(ans => 
-                        shuffledOptions[question.options.indexOf(ans)]
+                        shuffledOptions[originalOptions.indexOf(ans)]
                     );
-                } else if (typeof question.answer === 'string' || typeof question.answer === 'number') {
-                    question.answer = shuffledOptions[question.options.indexOf(question.answer)];
+                } else if (typeof question.answer === 'string') {
+                    question.answer = shuffledOptions[originalOptions.indexOf(question.answer)];
                 }
                 
                 question.options = shuffledOptions;
@@ -214,7 +215,7 @@
             // Submit 버튼 표시
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.style.display = 'block';
-            submitBtn.disabled = false;  // 버튼 활성화
+            submitBtn.disabled = false;  // 버튼 활화
 
             //  피 제거
             const feedbackElement = document.getElementById('feedback');
@@ -346,7 +347,7 @@
                                            .map(item => item.textContent.trim());
                 const correctAnswers = question.correct_answers[category];
                 if (!Array.isArray(correctAnswers)) {
-                    console.error(`${category}에 대한 올바른 답변이 배열이 아닙니다.`);
+                    console.error(`${category}에 대한 올바른 답변이 배열이 아닙다.`);
                     isCorrect = false;
                     return;
                 }
