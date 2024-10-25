@@ -184,7 +184,7 @@
         function displayQuestion() {
             const quizContainer = document.getElementById('quiz-container');
             if (!questions || questions.length === 0 || currentQuestionIndex >= questions.length) {
-                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패했습니다.</p>';
+                quizContainer.innerHTML = '<p>문제를 불러오는 데 실패습니다.</p>';
                 return;
             }
 
@@ -222,7 +222,7 @@
                 feedbackElement.remove();
             }
 
-            // 이전에 추가된 '다음 문제' ���튼 제거
+            // 이전에 추가된 '다음 문제' 튼 제거
             const nextButton = document.getElementById('next-btn');
             if (nextButton) {
                 nextButton.remove();
@@ -410,25 +410,7 @@
                 // 단일 정답인 경우
                 return selectedOptions.length === 1 && selectedOptions[0] === question.answer;
             }
-        }
-
-        document.getElementById('submit-btn').addEventListener('click', () => {
-            if (!questions || currentQuestionIndex >= questions.length) {
-                console.error('유효하지 않은 문 상태');
-                return;
-            }
-
-            if (checkAnswer()) {
-                score++;
-            }
-            currentQuestionIndex++;
-
-            if (currentQuestionIndex < questions.length) {
-                displayQuestion();
-            } else {
-                showFinalScore();
-            }
-        });
+        }       
 
         function showFinalScore() {
             const quizContainer = document.getElementById('quiz-container');
